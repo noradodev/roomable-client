@@ -1,0 +1,10 @@
+{
+  "auth_page": {
+    "create_account": "Create new Account",
+    "full_name": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "register": "Register"
+  }
+}

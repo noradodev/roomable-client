@@ -1,0 +1,10 @@
+{
+  "auth_page": {
+    "create_account": "បង្កើតគណនីយថ្មី!",
+    "full_name": "ឈ្មោះ",
+    "email": "អ៊ីមែល",
+    "password": "លេខសំងាត់",
+    "confirm_password": "បញ្ចាក់លេខលេខសំងាត់",
+    "register": "ចុះឈ្មោះ"
+  }
+}
