@@ -10,8 +10,8 @@
               {{ $t("auth_page.create_account") }}
             </h1>
             <div class="flex space-x-1">
-              <p>Already have account?</p>
-              <ULink to="/login" class="font-bold text-primary">Login</ULink>
+              <p>{{ $t("auth_page.already_have_an_account") }}</p>
+              <ULink to="/login" class="font-bold text-primary">{{$t("auth_page.login")}}</ULink>
             </div>
           </div>
           <div class="space-y-4">
@@ -64,12 +64,12 @@
               <UCheckbox v-model="state.agree_term" name="agree_term">
                 <template #label>
                   <span class="cursor-pointer"
-                    >I agree to the
+                    >{{ $t("auth_page.i_agree_to_the") }}
                     <ULink
                       target="_blank"
                       to="/term-and-conditions"
                       class="text-primary"
-                      >Term & Conditions</ULink
+                      >{{ $t("auth_page.term_condition") }}</ULink
                     >
                     <span class="text-error"> *</span>
                   </span>
@@ -102,21 +102,21 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 const { t } = useI18n();
 const schema = z
   .object({
-    full_name: z.string("Please enter your full name"),
-    email: z.email("Please enter a valid email address"),
+    full_name: z.string($t("validation_message.full_name")),
+    email: z.email($t("validation_message.email_invalid")),
     password: z
-      .string("Password is required")
-      .min(8, "Passowrd must be at least 8 characters"),
+      .string($t("validation_message.password_required"))
+      .min(8, $t("validation_message.password_min_8")),
     confirm_password: z.string().optional(),
     agree_term: z
       .boolean()
       .refine(
         (value) => value === true,
-        "You must agree to the terms and conditions"
+        $t("validation_message.term_condition")
       ),
   })
   .refine((data) => data.password === data.confirm_password, {
-    message: "Password don't match!",
+    message: $t("validation_message.confirm_password"),
     path: ["confirm_password"],
   });
 
