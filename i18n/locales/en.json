@@ -5,6 +5,20 @@
     "email": "Email",
     "password": "Password",
     "confirm_password": "Confirm Password",
-    "register": "Register"
+    "register": "Register",
+    "already_have_an_account" : "Already have account?",
+    "login":"Login",
+    "i_agree_to_the": "I agree to the ",
+    "term_condition" : "Term & Conditions"
+  },
+  "validation_message" : {
+
+    "full_name": "Please enter your full name",
+    "email_required": "Please enter a valid email address",
+    "email_invalid" : "Please enter a valid email address",
+    "password_required": "Password is required",
+    "password_min_8":"Passowrd must be at least 8 characters",
+    "confirm_password": "Password don't match!",
+    "term_condition" : "You must agree to the terms and conditions"
   }
 }
