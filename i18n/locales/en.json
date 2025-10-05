@@ -11,6 +11,24 @@
     "i_agree_to_the": "I agree to the ",
     "term_condition" : "Term & Conditions"
   },
+  "dashboard": {
+    "sidebar" :{
+      "menu" : "MENU",
+      "dashboard": "Dashboard",
+      "payments" :"Payments",
+      "maintenance" : "Maintenance",
+      "data" : "DATA",
+      "properties" : "Properties",
+      "tenants" : "Tenants",
+      "reports" : "Reports",
+      "general" : "GENERAL",
+      "settings" : "Settings",
+      "support" : "Support",
+      "logout" : "Logout"
+
+
+    }
+  },
   "validation_message" : {
 
     "full_name": "Please enter your full name",

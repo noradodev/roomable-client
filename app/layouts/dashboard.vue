@@ -1,52 +1,52 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { en, km } from "@nuxt/ui/locale";
-const { locale, setLocale } = useI18n();
+const { locale, setLocale , t} = useI18n();
 
 const items = ref(<NavigationMenuItem[]>[
   {
-    label: "MENU",
+    label: $t("dashboard.sidebar.menu"),
     type: "label",
   },
   {
-    label: "Dashboard",
+    label: $t("dashboard.sidebar.dashboard"),
     icon: "i-lucide-layout-dashboard",
     active: true,
   },
   {
-    label: "Payments",
+    label: $t("dashboard.sidebar.payments"),
     icon: "i-lucide-credit-card",
   },
   {
-    label: "Maintentance",
+    label: $t("dashboard.sidebar.maintenance"),
     icon: "i-lucide-construction",
-  },
+  },  
   {
-    label: "DATA",
+    label: $t("dashboard.sidebar.data"),
     type: "label",
   },
   {
-    label: "Properties",
+    label: $t("dashboard.sidebar.properties"),  
     icon: "i-lucide-building",
   },
   {
-    label: "Tenants",
+    label: $t("dashboard.sidebar.tenants"),
     icon: "i-lucide-book-user",
   },
   {
-    label: "Reports",
+    label: $t("dashboard.sidebar.reports"),
     icon: "i-lucide-file-chart-pie",
   },
   {
-    label: "GENERAL",
+    label: $t("dashboard.sidebar.general"),
     type: "label",
   },
   {
-    label: "Settings",
-    icon: "i-lucide-settings",
+    label: $t("dashboard.sidebar.settings"),
+    icon: "i-lucide-settings",  
   },
   {
-    label: "Support",
+    label: $t("dashboard.sidebar.support"),
     icon: "i-lucide-messages-square",
   },
 ]);
@@ -103,7 +103,7 @@ const items = ref(<NavigationMenuItem[]>[
               icon="i-lucide-log-out"
               class="w-full py-4 px-4"
             >
-              Logout
+              {{$t("dashboard.sidebar.logout")}}
             </UButton>
           </div>
         </div>
