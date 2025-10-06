@@ -25,7 +25,16 @@
       "settings" : "Settings",
       "support" : "Support",
       "logout" : "Logout"
-
+    },
+    "content_area" : {  
+      "total_properties" : "Total Properties",
+      "total_rooms" : "Total Rooms",
+      "total_tenants" : "Total Tenants",
+      "total_income" : "Total Income",
+      "latest_properties" : "Latest Properties",
+      "all_properties" : "All Properties",
+      "room_renting" : "Rooms renting",
+      "last_month" : "Last month"
 
     }
   },

@@ -30,7 +30,7 @@
     </div>
 
     <div class="add-info bg-slate-50 p-4 pt-2 pb-3 rounded-b-2xl border-t-2 border-t-slate-100 ">
-      <span class="text-slate-600 text-sm">Rooms renting</span>
+      <span class="text-slate-600 text-sm">{{ t("dashboard.content_area.room_renting") }}</span>
       <div class="flex items-center space-x-2">
         <div class="room-no-info flex justify-center items-center space-x-2">
           <UIcon name="i-lucide-building" />
@@ -59,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+const { locale, setLocale, t } = useI18n({ useScope: "global" });
+
 interface PropertyCardProps {
   image: string
   location: string
