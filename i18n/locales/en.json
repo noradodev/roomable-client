@@ -11,6 +11,33 @@
     "i_agree_to_the": "I agree to the ",
     "term_condition" : "Term & Conditions"
   },
+  "dashboard": {
+    "sidebar" :{
+      "menu" : "MENU",
+      "dashboard": "Dashboard",
+      "payments" :"Payments",
+      "maintenance" : "Maintenance",
+      "data" : "DATA",
+      "properties" : "Properties",
+      "tenants" : "Tenants",
+      "reports" : "Reports",
+      "general" : "GENERAL",
+      "settings" : "Settings",
+      "support" : "Support",
+      "logout" : "Logout"
+    },
+    "content_area" : {  
+      "total_properties" : "Total Properties",
+      "total_rooms" : "Total Rooms",
+      "total_tenants" : "Total Tenants",
+      "total_income" : "Total Income",
+      "latest_properties" : "Latest Properties",
+      "all_properties" : "All Properties",
+      "room_renting" : "Rooms renting",
+      "last_month" : "Last month"
+
+    }
+  },
   "validation_message" : {
 
     "full_name": "Please enter your full name",

@@ -11,6 +11,36 @@
     "i_agree_to_the" : "ខ្ញុំយល់ស្របចំពោះ​",
     "term_condition" : " ល័ក្ខខ័ណ្ឌ ​និងបទបញ្ញាត្តិ"
   },
+  "dashboard": {
+    "sidebar" :{
+      "menu" : "មីនុយ",
+      "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+      "payments" :"ការទូទាត់",
+      "maintenance" : "ការថែទាំ",
+      "data" : "ទិន្នន័យ",
+      "properties" : "អគារ",
+      "tenants" : "អ្នកជួល",
+      "reports" : "របាយការណ៏",
+      "general" : "ទូទៅ",
+      "settings" : "ការគ្រប់គ្រង",
+      "support" : "ជំនួយ",
+      "logout" : "ចេញ"
+
+
+    },
+    "content_area" : {  
+      "total_properties" : "អគារសរុប",
+      "total_rooms" : "បន្ទប់សរុប",
+      "total_tenants" : "អ្នកជួលសរុប",
+      "total_income" : "ចំណូលសរុប",
+      "latest_properties" : "អគារថ្មីបំផុត",
+      "all_properties" : "អគារទាំងអស់",
+      "room_renting" : "បន្ទប់កំពុងជួល",
+      "last_month" : "ក្នុងខែមុន"
+
+
+    }
+  },
   "validation_message" : {
 
     "full_name": "បញ្ចូលឈ្មោះពេញរបស់អ្នក",
@@ -21,4 +51,5 @@
     "confirm_password": "លេខសម្ងាត់បញ្ចាក់មិនដូចគ្នា!",
     "term_condition" : "សូមមេត្តាយល់ស្របតាមលក្ខខណ្ឌ​ ​និងបទបញ្ញាត្តិ​​​ខាងលើ"
   }
+  
 }
