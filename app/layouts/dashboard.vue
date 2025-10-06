@@ -2,6 +2,8 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { en, km } from "@nuxt/ui/locale";
 const { locale, setLocale, t } = useI18n({ useScope: "global" });
+const localePath = useLocalePath()
+
 const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.menu"),
@@ -10,7 +12,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.dashboard"),
     icon: "i-lucide-layout-dashboard",
-    active: true,
+    to: localePath("/dashboard")
   },
   {
     label: t("dashboard.sidebar.payments"),
@@ -27,6 +29,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.properties"),
     icon: "i-lucide-building-2",
+    to: localePath("/properties"),
   },
   {
     label: t("dashboard.sidebar.tenants"),
@@ -53,109 +56,109 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
 ]);
 </script>
-<template>
-  <UDashboardGroup>
-    <UDashboardSidebar
-      collapsible
-      class="transition-all duration-300 bg-white"
-      :min-size="100"
-    >
-      <template #header="{ collapsed }">
-        <NuxtLink to="/" class="mt-3">
-          <img
-            src="../assets/logo/roomable-logo.svg"
-            alt="logo"
-            class="w-52 h-auto"
-          />
-        </NuxtLink>
-      </template>
+  <template>
+    <UDashboardGroup>
+      <UDashboardSidebar
+        collapsible
+        class="transition-all duration-300 bg-white"
+        :min-size="100"
+      >
+        <template #header="{ collapsed }">
+          <NuxtLink to="/" class="mt-3">
+            <img
+              src="../assets/logo/roomable-logo.svg"
+              alt="logo"
+              class="w-52 h-auto"
+            />
+          </NuxtLink>
+        </template>
 
-      <template #default="{ collapsed }">
-        <USeparator orientation="horizontal" />
-        <UButton
-          variant="ghost"
-          color="neutral"
-          class="flex justify-between text-neutral-800 my-0"
-          size="lg"
-          trailing-icon="i-lucide-chevron-right"
-        >
-          <div class="space-x-2 flex justify-between items-center">
-            <div>
-              <img
-                src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Luis"
-                class="w-10 h-10 rounded-xl"
-              />
-            </div>
-            <div class=" ">
-              <div class="flex justify-start flex-col space-x-2">
-                <div class="flex justify-center items-center">
-                  <h5 class="text-base text-start p-0 m-0 text-ellipsis">
-                    {{ collapsed ? undefined : "Rado No" }}
-                  </h5>
-                  <UBadge
-                    class="text-xs text-start ml-2"
-                    variant="subtle"
-                    icon="i-lucide-crown"
-                    >Pro</UBadge
-                  >
-                </div>
-                <div class="text-start">
-                  <span class="p-0 m-0 text-xs">+85511899276</span>
+        <template #default="{ collapsed }">
+          <USeparator orientation="horizontal" />
+          <UButton
+            variant="ghost"
+            color="neutral"
+            class="flex justify-between text-neutral-800 my-0"
+            size="lg"
+            trailing-icon="i-lucide-chevron-right"
+          >
+            <div class="space-x-2 flex justify-between items-center">
+              <div>
+                <img
+                  src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Luis"
+                  class="w-10 h-10 rounded-xl"
+                />
+              </div>
+              <div class=" ">
+                <div class="flex justify-start flex-col space-x-2">
+                  <div class="flex justify-center items-center">
+                    <h5 class="text-base text-start p-0 m-0 text-ellipsis">
+                      {{ collapsed ? undefined : "Rado No" }}
+                    </h5>
+                    <UBadge
+                      class="text-xs text-start ml-2"
+                      variant="subtle"
+                      icon="i-lucide-crown"
+                      >Pro</UBadge
+                    >
+                  </div>
+                  <div class="text-start">
+                    <span class="p-0 m-0 text-xs">+85511899276</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </UButton>
-        <USeparator />
-        <UNavigationMenu
-          :items="items"
-          orientation="vertical"
-          color="secondary"
-        >
-          <template #item-leading="{ item }">
-            <div
-              v-show="!item.type"
-              class="flex items-center justify-center w-10 h-10 transition-all duration-300"
-            >
-              <UIcon :name="item.icon ?? ''" class="text-2xl" />
+          </UButton>
+          <USeparator />
+          <UNavigationMenu
+            :items="items"
+            orientation="vertical"
+            color="primary"
+          >
+            <template #item-leading="{ item }">
+              <div
+                v-show="!item.type"
+                class="flex items-center justify-center w-10 h-10 transition-all duration-300"
+              >
+                <UIcon :name="item.icon ?? ''" class="text-2xl" />
+              </div>
+            </template>
+
+            <template #item-label="{ item }">
+              <span
+                v-if="!collapsed"
+                class="transition-all duration-300 whitespace-nowrap"
+              >
+                {{ item.label }}
+              </span>
+            </template>
+          </UNavigationMenu>
+        </template>
+
+        <template #footer="{ collapsed }">
+          <div class="space-y-2 w-full">
+            <ULocaleSelect
+              v-model="locale"
+              :locales="[en, km]"
+              @update:model-value="setLocale($event)"
+              variant="outline"
+              size="lg"
+              class="!w-full py-2 bg-white"
+            />
+
+            <div class="logout-action w-full">
+              <UButton
+                variant="ghost"
+                color="error"
+                icon="i-lucide-log-out"
+                class="w-full py-4"
+              >
+                {{ t("dashboard.sidebar.logout") }}
+              </UButton>
             </div>
-          </template>
-
-          <template #item-label="{ item }">
-            <span
-              v-if="!collapsed"
-              class="transition-all duration-300 whitespace-nowrap"
-            >
-              {{ item.label }}
-            </span>
-          </template>
-        </UNavigationMenu>
-      </template>
-
-      <template #footer="{ collapsed }">
-        <div class="space-y-2 w-full">
-          <ULocaleSelect
-            v-model="locale"
-            :locales="[en, km]"
-            @update:model-value="setLocale($event)"
-            variant="outline"
-            size="lg"
-            class="!w-full py-2 bg-white"
-          />
-
-          <div class="logout-action w-full">
-            <UButton
-              variant="ghost"
-              color="error"
-              icon="i-lucide-log-out"
-              class="w-full py-4"
-            >
-              {{ t("dashboard.sidebar.logout") }}
-            </UButton>
           </div>
-        </div>
-      </template>
-    </UDashboardSidebar>
-    <slot />
-  </UDashboardGroup>
-</template>
+        </template>
+      </UDashboardSidebar>
+      <slot />
+    </UDashboardGroup>
+  </template>

@@ -1,42 +1,41 @@
 <script setup lang="ts">
-
-const { locale, setLocale, t } = useI18n({ useScope: "global" });
+const { t } = useI18n({ useScope: "global" });
 const items = ref([
-  t("dashboard.content_area.latest_properties"), 
-  t("dashboard.content_area.all_properties")
+  t("dashboard.content_area.latest_properties"),
+  t("dashboard.content_area.all_properties"),
 ]);
 const value = ref(items.value[0]);
 const properties = ref([
-  {
-    id: 1,
-    image:
-      "https://filesblog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg",
-    location: "សៀមរាប Sla Kram, Krong Siem Reab, Siem Reap",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 9,
-    totalRooms: 10,
-  },
-  {
-    id: 2,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
-    location: "Phnom Penh, Toul Kork, Cambodia",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 4,
-    totalRooms: 8,
-  },
-  {
-    id: 3,
-    image:
-      "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
-    location: "Battambang, Svay Paosgdf",
-    statusText: "Inactive",
-    statusColor: "error",
-    roomsRemaining: 0,
-    totalRooms: 6,
-  },
+  // {
+  //   id: 1,
+  //   image:
+  //     "https://filesblog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg",
+  //   location: "សៀមរាប Sla Kram, Krong Siem Reab, Siem Reap",
+  //   statusText: "Active",
+  //   statusColor: "success",
+  //   roomsRemaining: 9,
+  //   totalRooms: 10,
+  // },
+  // {
+  //   id: 2,
+  //   image:
+  //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
+  //   location: "Phnom Penh, Toul Kork, Cambodia",
+  //   statusText: "Active",
+  //   statusColor: "success",
+  //   roomsRemaining: 4,
+  //   totalRooms: 8,
+  // },
+  // {
+  //   id: 3,
+  //   image:
+  //     "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
+  //   location: "Battambang, Svay Paosgdf",
+  //   statusText: "Inactive",
+  //   statusColor: "error",
+  //   roomsRemaining: 0,
+  //   totalRooms: 6,
+  // },
 ]);
 definePageMeta({
   layout: "dashboard",
@@ -59,7 +58,7 @@ definePageMeta({
     <template #body>
       <div class="dash-overview">
         <div
-          class="head-card-dash grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 px-6 "
+          class="head-card-dash grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 px-6"
         >
           <CommonStatsCard
             icon="i-lucide-building-2"
@@ -89,7 +88,9 @@ definePageMeta({
         </div>
         <div class="properties-wrapper mt-8 bg-white p-4 sm:pt-2 sm:p-6 shadow">
           <div class="flex justify-between items-center my-4">
-            <h5>{{t('dashboard.sidebar.properties')}}</h5>
+            <h5 class="font-bold text-lg">
+              {{ t("dashboard.sidebar.properties") }}
+            </h5>
             <div class="filter-action">
               <USelect
                 v-model="value"
@@ -102,7 +103,9 @@ definePageMeta({
           </div>
           <div
             class="property-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            v-if="properties.length > 0"
           >
+            <!-- :status-color="property.statusColor as 'success' | 'error'" -->
             <CommonPropertyCard
               v-for="property in properties"
               :key="property.id"
@@ -110,13 +113,53 @@ definePageMeta({
               :location="property.location"
               :status-text="property.statusText"
               :rooms-remaining="property.roomsRemaining"
-              :status-color="property.statusColor as 'success' | 'error'"
               :total-rooms="property.totalRooms"
             />
+          </div>
+          <div
+            v-else
+            class="no-props flex flex-col items-center justify-center text-center py-16 px-4 bg-gray-50 rounded-2xl border border-dashed border-gray-300"
+          >
+            <UIcon
+              name="i-lucide-building-2"
+              class="text-5xl text-gray-400 mb-4"
+            />
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              No Properties Yet
+            </h3>
+            <p class="text-gray-500 text-sm mb-6 max-w-sm">
+              Start by adding your first property to manage rooms, track
+              performance, and unlock more features.
+            </p>
+
+            <ULink
+              :to="$localePath('/properties')"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-600 text-sm text-white font-medium hover:bg-primary-700 hover:text-white transition-colors duration-200"
+            >
+              <UIcon name="i-lucide-plus" class="text-base" />
+              Add New Property
+            </ULink>
+          </div>
+        </div>
+        <USeparator />
+        <div class="q-section bg-white p-4 sm:pt-2 sm:p-6 shadow">
+          <div class="q-maintenance-request">
+            <div class="flex justify-between items-center my-4">
+              <h5 class="font-bold text-lg">Maintenance requests</h5>
+              <div class="filter-action">
+                <USelect
+                  v-model="value"
+                  icon="i-lucide-building-2"
+                  size="md"
+                  :items="items"
+                  class="w-48 bg-white shadow"
+                />
+              </div>
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
     </template>
   </UDashboardPanel>
 </template>
-<style scoped></style>

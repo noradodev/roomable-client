@@ -1,11 +1,8 @@
 <template>
-  <div class="card rounded-2xl relative shadow  flex flex-col min-h-[320px] ">
+  <div class="card rounded-2xl relative shadow flex flex-col min-h-[320px]">
     <div class="props-img">
       <div class="image-wrapper overflow-hidden rounded-t-2xl h-52">
-        <NuxtImg
-          :src="image"
-          class="object-cover h-full w-full"
-        />
+        <NuxtImg :src="image" class="object-cover h-full w-full" />
       </div>
     </div>
 
@@ -29,8 +26,12 @@
       </div>
     </div>
 
-    <div class="add-info bg-slate-50 p-4 pt-2 pb-3 rounded-b-2xl border-t-2 border-t-slate-100 ">
-      <span class="text-slate-600 text-sm">{{ t("dashboard.content_area.room_renting") }}</span>
+    <div
+      class="add-info bg-slate-50 p-4 pt-2 pb-3 rounded-b-2xl border-t-2 border-t-slate-100"
+    >
+      <span class="text-slate-600 text-sm">{{
+        t("dashboard.content_area.room_renting")
+      }}</span>
       <div class="flex items-center space-x-2">
         <div class="room-no-info flex justify-center items-center space-x-2">
           <UIcon name="i-lucide-building" />
@@ -46,14 +47,11 @@
         </div>
       </div>
     </div>
-    <div class="absolute top-4 right-4  rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 border border-gray-100/40 ">
-        <UButton
-    icon="i-lucide-ellipsis"
-    variant="ghost"
-    class="cursor-pointer"
+    <div
+      class="absolute top-4 right-4 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 border border-gray-100/40"
     >
-
-    </UButton>
+      <UButton icon="i-lucide-ellipsis" variant="ghost" class="cursor-pointer text-white">
+      </UButton>
     </div>
   </div>
 </template>
@@ -62,29 +60,29 @@
 const { locale, setLocale, t } = useI18n({ useScope: "global" });
 
 interface PropertyCardProps {
-  image: string
-  location: string
-  statusText?: string
-  statusColor: 'success' | 'error'
-  roomsRemaining: number
-  totalRooms: number
+  image: string;
+  location: string;
+  statusText?: string;
+  statusColor?: "success" | "error";
+  roomsRemaining: number;
+  totalRooms: number;
 }
 
-const props = defineProps<PropertyCardProps>()
-const progressValue = ref(props.roomsRemaining)
+const props = defineProps<PropertyCardProps>();
+const progressValue = ref(props.roomsRemaining);
 
 const {
   image,
   location,
-  statusText = 'Active',
-  statusColor = 'success',
+  statusText = "Active",
+  statusColor = "success",
   roomsRemaining,
   totalRooms,
-} = props
+} = props;
 watch(
   () => props.roomsRemaining,
   (newVal) => {
-    progressValue.value = newVal
+    progressValue.value = newVal;
   }
-)
+);
 </script>

@@ -88,3 +88,5 @@
 	--ui-border-accented: var(--ui-color-neutral-300);
 	--ui-border-inverted: var(--ui-color-neutral-800);
 }
+html[lang="km"] { font-family: 'Kantumruy Pro', sans-serif; }
+html[lang="en"] { font-family: 'Inter', sans-serif; }

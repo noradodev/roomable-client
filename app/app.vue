@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import * as locales from '@nuxt/ui/locale'
+import * as locales from "@nuxt/ui/locale";
 
-const { locale } = useI18n()
-const lang = computed(() => locales[locale.value].code)
-const dir = computed(() => locales[locale.value].dir)
+const { locale } = useI18n();
+const lang = computed(() => locales[locale.value].code);
+const dir = computed(() => locales[locale.value].dir);
 useHead({
   htmlAttrs: {
     lang,
-    dir
-  }
-})
+    dir,
+  },
+});
 </script>
 <template>
-<div :class="[locale === 'km' ? 'font-kantumruy' : 'font-inter']">
-    <UApp :locale="locales[locale]" >
+  <UApp :locale="locales[locale]">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </UApp>
-</div>
 </template>

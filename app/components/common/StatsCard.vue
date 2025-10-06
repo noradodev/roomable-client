@@ -14,7 +14,7 @@
     </div>
     <div class="card-info">
       <div>
-        <span class="text-base text-slate-600">{{ subHeader }}</span>
+        <span class="text-sm text-slate-600">{{ subHeader }}</span>
         <div class="stats_no flex justify-between items-center">
           <h3 class="text-3xl font-bold">{{ total }}</h3>
           <div class="flex justify-center items-center space-x-2">
