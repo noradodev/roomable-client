@@ -15,7 +15,7 @@ const properties = ref([
   {
     id: 2,
     image:
-      "https://cdn.houseplansservices.com/product/x2d4hk2l9eh1gogmd4sl1rcvj5/w800x533.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
     location: "Phnom Penh, Toul Kork, Cambodia",
     statusText: "Active",
     statusColor: "success",
@@ -25,82 +25,12 @@ const properties = ref([
   {
     id: 3,
     image:
-      "https://images.adsttc.com/media/images/58b6/4a64/e58e/cefb/1600/0087/newsletter/house.jpg",
-    location: "Battambang, Svay Pao loredfjsfd dhhhhhhhhhhhhhhhh                  hhfsjhgfsdhgfvsgdf",
+      "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
+    location: "Battambang, Svay Paosgdf",
     statusText: "Inactive",
     statusColor: "error",
     roomsRemaining: 0,
     totalRooms: 6,
-  },
-  {
-    id: 4,
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/6/60/Modern_house_interior_design.jpg",
-    location: "Siem Reap, Sala Kamreuk",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 7,
-    totalRooms: 12,
-  },
-  {
-    id: 5,
-    image:
-      "https://www.thespruce.com/thmb/3ePi6cp5zFQfZAnhrWwCXStRtyE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/modernhomeexterior-56a3f0233df78cf7727c5b1e.jpg",
-    location: "Kampot Riverside, Kampot",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 5,
-    totalRooms: 5,
-  },
-  {
-    id: 6,
-    image:
-      "https://assets.architecturaldigest.in/photos/60083e08cbda1a06ad666c02/master/pass/modern-house-design-lead-image-1366x768.jpg",
-    location: "Sihanoukville, Village 4",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 2,
-    totalRooms: 10,
-  },
-  {
-    id: 7,
-    image:
-      "https://media.architecturaldigest.com/photos/56c4debc9621de0f1d72df34/16:9/w_2560%2Cc_limit/modernist-homes-01.jpg",
-    location: "Kep Province, Seaside",
-    statusText: "Maintenance",
-    statusColor: "error",
-    roomsRemaining: 0,
-    totalRooms: 4,
-  },
-  {
-    id: 8,
-    image:
-      "https://www.home-designing.com/wp-content/uploads/2021/09/modern-house-exterior-design.jpg",
-    location: "Takeo Province, Bati District",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 6,
-    totalRooms: 9,
-  },
-  {
-    id: 9,
-    image:
-      "https://cdn.vox-cdn.com/thumbor/AaDE_M3JR-Fb2qZT0EmQe4o8rsQ=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/65026505/modern_house_exterior.0.jpg",
-    location: "Kandal, Takhmao",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 3,
-    totalRooms: 8,
-  },
-  {
-    id: 10,
-    image:
-      "https://www.architectureartdesigns.com/wp-content/uploads/2018/06/17-5.jpg",
-    location: "Banteay Meanchey, Sisophon",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 8,
-    totalRooms: 10,
   },
 ]);
 definePageMeta({
@@ -175,6 +105,7 @@ definePageMeta({
               :location="property.location"
               :status-text="property.statusText"
               :rooms-remaining="property.roomsRemaining"
+              :status-color="property.statusColor as 'success' | 'error'"
               :total-rooms="property.totalRooms"
             />
           </div>

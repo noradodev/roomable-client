@@ -10,7 +10,7 @@
     </div>
 
     <div
-      class="props-content flex justify-between items-center px-4 py-6 bg-white shadow h-full"
+      class="props-content flex justify-between items-center px-4 py-6 bg-white shadow h-full space-x-2"
     >
       <div class="name-loc">
         <p class="font-bold line-clamp-2">
@@ -22,7 +22,7 @@
           size="lg"
           variant="outline"
           :color="statusColor"
-          class="bg-white shadow p-1 px-2"
+          class="bg-white p-1 px-2"
         >
           {{ statusText }}
         </UBadge>
@@ -63,7 +63,7 @@ interface PropertyCardProps {
   image: string
   location: string
   statusText?: string
-  statusColor?: 'success' | 'error'
+  statusColor: 'success' | 'error'
   roomsRemaining: number
   totalRooms: number
 }
