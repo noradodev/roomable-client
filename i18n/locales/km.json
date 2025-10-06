@@ -18,13 +18,25 @@
       "payments" :"ការទូទាត់",
       "maintenance" : "ការថែទាំ",
       "data" : "ទិន្នន័យ",
-      "properties" : "ផ្ទះ",
+      "properties" : "អគារ",
       "tenants" : "អ្នកជួល",
       "reports" : "របាយការណ៏",
       "general" : "ទូទៅ",
       "settings" : "ការគ្រប់គ្រង",
       "support" : "ជំនួយ",
       "logout" : "ចេញ"
+
+
+    },
+    "content_area" : {  
+      "total_properties" : "អគារសរុប",
+      "total_rooms" : "បន្ទប់សរុប",
+      "total_tenants" : "អ្នកជួលសរុប",
+      "total_income" : "ចំណូលសរុប",
+      "latest_properties" : "អគារថ្មីបំផុត",
+      "all_properties" : "អគារទាំងអស់",
+      "room_renting" : "បន្ទប់កំពុងជួល",
+      "last_month" : "ក្នុងខែមុន"
 
 
     }

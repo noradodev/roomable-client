@@ -1,5 +1,10 @@
 <script setup lang="ts">
-const items = ref(["Latest Properties", "All Properties"]);
+
+const { locale, setLocale, t } = useI18n({ useScope: "global" });
+const items = ref([
+  t("dashboard.content_area.latest_properties"), 
+  t("dashboard.content_area.all_properties")
+]);
 const value = ref(items.value[0]);
 const properties = ref([
   {
@@ -41,7 +46,7 @@ definePageMeta({
   <UDashboardPanel>
     <template #header>
       <UDashboardNavbar
-        title="Dashboard"
+        :title="t('dashboard.sidebar.dashboard')"
         toggle-side="right"
         :toggle="{
           color: 'primary',
@@ -59,32 +64,32 @@ definePageMeta({
           <CommonStatsCard
             icon="i-lucide-building-2"
             :increase="10"
-            sub-header="Total Properties"
+            :sub-header="t('dashboard.content_area.total_properties')"
             :total="12"
           />
           <CommonStatsCard
             icon="i-lucide-building"
             :increase="1"
-            sub-header="Total Rooms"
+            :sub-header="t('dashboard.content_area.total_rooms')"
             :total="10"
           />
           <CommonStatsCard
             icon="i-lucide-book-user"
             :increase="1"
-            sub-header="Total Tenants"
+            :sub-header="t('dashboard.content_area.total_tenants')"
             :total="10"
           />
 
           <CommonStatsCard
             icon="i-lucide-credit-card"
             :increase="1"
-            sub-header="Total Income"
+            :sub-header="t('dashboard.content_area.total_income')"
             total="$120,000"
           />
         </div>
         <div class="properties-wrapper mt-8 bg-white p-4 sm:pt-2 sm:p-6 shadow">
           <div class="flex justify-between items-center my-4">
-            <h5>Properties</h5>
+            <h5>{{t('dashboard.sidebar.properties')}}</h5>
             <div class="filter-action">
               <USelect
                 v-model="value"

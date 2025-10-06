@@ -19,7 +19,7 @@
           <h3 class="text-3xl font-bold">{{ total }}</h3>
           <div class="flex justify-center items-center space-x-2">
             <UBadge variant="soft" color="success"> + {{ increase }} </UBadge>
-            <p class="text-slate-600">last month</p>
+            <p class="text-slate-600">{{ t("dashboard.content_area.last_month") }}</p>
           </div>
         </div>
       </div>
@@ -27,6 +27,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+const { locale, setLocale, t } = useI18n({ useScope: "global" });
+
 defineProps<{
     icon: string,
     subHeader: string,
