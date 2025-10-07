@@ -75,7 +75,7 @@
     </UFormField>
 
     <div class="flex justify-end pt-4">
-      <UButton type="submit" color="primary" size="lg">{{ t("dashboard.content_area.next_btn") }}</UButton>
+      <UButton type="submit" color="primary"  trailing-icon="i-lucide-arrow-right" size="lg">{{ t("dashboard.content_area.next_btn") }}</UButton>
     </div>
   </UForm>
 </template>

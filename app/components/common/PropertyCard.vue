@@ -50,16 +50,40 @@
     <div
       class="absolute top-4 right-4 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 border border-gray-100/40"
     >
-      <UButton icon="i-lucide-ellipsis" variant="ghost" class="cursor-pointer text-white">
-      </UButton>
+      <UDropdownMenu
+        :items="items"
+        :content="{
+          align: 'start',
+          side: 'right',
+          sideOffset: 8,
+        }"
+        :ui="{
+          content: 'w-56 bg-white',
+        }"
+        @select="onSelect"
+      >
+        <template #item-leading="{ item }">
+          <UIcon :name="item.icon ?? ''" class="text-2xl my-1 mx-1" />
+        </template>
+        <UButton
+          icon="i-lucide-ellipsis"
+          variant="ghost"
+          class="cursor-pointer text-white"
+        >
+        </UButton>
+      </UDropdownMenu>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { locale, setLocale, t } = useI18n({ useScope: "global" });
+import type { DropdownMenuItem } from "@nuxt/ui";
+
+const { t } = useI18n({ useScope: "global" });
+const localePath = useLocalePath();
 
 interface PropertyCardProps {
+  uuid: number | string
   image: string;
   location: string;
   statusText?: string;
@@ -79,6 +103,44 @@ const {
   roomsRemaining,
   totalRooms,
 } = props;
+const emit = defineEmits<{
+  (e: "view"): void;
+  (e: "edit"): void;
+  (e: "delete"): void;
+}>();
+
+const items: DropdownMenuItem[][] = [
+  [
+    {
+      label: "View Rooms",
+      icon: "i-lucide-eye",
+      to: localePath(`/properties/${props.uuid}`)
+    },
+    {
+      label: "Edit Property",
+      icon: "i-lucide-pencil",
+      onSelect: () => {
+        emit("edit");
+      },
+    },
+  ],
+  [
+    {
+      label: "Delete This Property",
+      color: "error",
+      icon: "i-lucide-trash",
+      onSelect: () => {
+        emit("delete");
+      },
+    },
+  ],
+];
+
+function onSelect(item: { label: string }) {
+  if (item.label === "Edit Property") emit("edit");
+  if (item.label === "Delete This Property") emit("delete");
+}
+
 watch(
   () => props.roomsRemaining,
   (newVal) => {

@@ -15,7 +15,7 @@
           <UInput
             color="primary"
             variant="soft"
-            :placeholder="t('dashboard.content_area.search_property')" 
+            :placeholder="t('dashboard.content_area.search_property')"
             icon="i-lucide-search"
             class="w-56"
             size="lg"
@@ -56,6 +56,7 @@
               <template #body>
                 <UStepper
                   ref="stepper"
+                  v-model="currentStep"
                   :items="createPropertiesStepper"
                   disabled
                   :ui="{ title: 'font-bold' }"
@@ -77,11 +78,23 @@
 
                   <template #review>
                     <div class="p-4 space-y-2">
-                      <h3 class="font-bold text-lg">Review</h3>
-                      <pre>{{ formData }}</pre>
-                      <UButton color="primary" @click="submitAll">
-                        Submit All
-                      </UButton>
+                      <FormFinalSammorize
+                        :property="formData.property"
+                        :room-setup="formData.roomSetup"
+                        v-model:currentStep="currentStep"
+                      />
+                      <div class="flex justify-end items-center space-x-2 mt-4">
+                        <UButton
+                          color="primary"
+                          variant="soft"
+                          @click="!stepper?.prev()"
+                        >
+                          Back
+                        </UButton>
+                        <UButton color="primary" @click="submitAll">
+                          Create Property
+                        </UButton>
+                      </div>
                     </div>
                   </template>
                 </UStepper>
@@ -97,11 +110,14 @@
           <CommonPropertyCard
             v-for="property in properties"
             :key="property.id"
+            :uuid="property.id"
             :image="property.image"
             :location="property.location"
             :status-text="property.statusText"
             :rooms-remaining="property.roomsRemaining"
             :total-rooms="property.totalRooms"
+            @edit="() => handleEdit(property.id)"
+            @delete="() => handleDelete(property.id)"
           />
         </div>
         <div
@@ -116,58 +132,105 @@
             {{ t("dashboard.content_area.no_property") }}
           </h3>
           <p class="text-gray-500 text-sm mb-6 max-w-sm">
-            {{t("dashboard.content_area.no_property_desc")}}
+            {{ t("dashboard.content_area.no_property_desc") }}
           </p>
         </div>
       </div>
+      <UModal v-model:open="isEditModalOpen" class="max-w-2xl" title="Edit Property">
+        <template #body>
+            <PropertyForm v-model="formData.property" />
+        </template>
+      </UModal>
+      <UModal v-model:open="isDeleteModalOpen" class="max-w-md bg-white">
+        <template #content>
+          <div class="p-6 text-center">
+            <div
+              class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100"
+            >
+              <UIcon name="i-lucide-trash" class="h-6 w-6 text-red-600" />
+            </div>
+
+            <h2 class="mt-4 text-xl font-semibold text-gray-900">
+              Delete this property?
+            </h2>
+
+            <p class="mt-2 text-sm text-gray-500">
+              You're about to permanently remove property
+              <span class="font-medium text-gray-800"
+                >#{{ selectedPropertyId }}</span
+              >. This action cannot be undone.
+            </p>
+
+            <div class="mt-6 flex gap-2 sm:flex-row sm:justify-center">
+              <UButton
+                variant="ghost"
+                @click="isDeleteModalOpen = false"
+                size="md"
+              >
+                Cancel
+              </UButton>
+
+              <UButton color="error" icon="i-lucide-trash" size="md">
+                Delete
+              </UButton>
+            </div>
+          </div>
+        </template>
+      </UModal>
     </template>
   </UDashboardPanel>
 </template>
 <script setup lang="ts">
 const { t } = useI18n();
 const stepper = useTemplateRef("stepper");
+import type { StepperItem } from "@nuxt/ui";
 import PropertyForm from "~/components/form/PropertyForm.vue";
 import type { PropertySchema } from "~/schemas/property.schema";
 import type { RoomSetupSchema } from "~/schemas/room.schema";
 
+const currentStep = ref(0);
 const items = ref([
   t("dashboard.content_area.latest_property"),
   t("dashboard.content_area.all_properties"),
 ]);
 const value = ref(items.value[0]);
+const isEditModalOpen = ref(false);
+const isDeleteModalOpen = ref(false);
+const selectedPropertyId = ref<number | null>(null);
+
 const properties = ref([
-  // {
-  //   id: 1,
-  //   image:
-  //     "https://filesblog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg",
-  //   location: "សៀមរាប Sla Kram, Krong Siem Reab, Siem Reap",
-  //   statusText: "Active",
-  //   statusColor: "success",
-  //   roomsRemaining: 9,
-  //   totalRooms: 10,
-  // },
-  // {
-  //   id: 2,
-  //   image:
-  //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
-  //   location: "Phnom Penh, Toul Kork, Cambodia",
-  //   statusText: "Active",
-  //   statusColor: "success",
-  //   roomsRemaining: 4,
-  //   totalRooms: 8,
-  // },
-  // {
-  //   id: 3,
-  //   image:
-  //     "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
-  //   location: "Battambang, Svay Paosgdf",
-  //   statusText: "Inactive",
-  //   statusColor: "error",
-  //   roomsRemaining: 0,
-  //   totalRooms: 6,
-  // },
+  {
+    id: 1,
+    image:
+      "https://filesblog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg",
+    location: "សៀមរាប Sla Kram, Krong Siem Reab, Siem Reap",
+    statusText: "Active",
+    statusColor: "success",
+    roomsRemaining: 9,
+    totalRooms: 10,
+  },
+  {
+    id: 2,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
+    location: "Phnom Penh, Toul Kork, Cambodia",
+    statusText: "Active",
+    statusColor: "success",
+    roomsRemaining: 4,
+    totalRooms: 8,
+  },
+  {
+    id: 3,
+    image:
+      "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
+    location: "Battambang, Svay Paosgdf",
+    statusText: "Inactive",
+    statusColor: "error",
+    roomsRemaining: 0,
+    totalRooms: 6,
+  },
 ]);
-const createPropertiesStepper = ref([
+const createPropertiesStepper = ref(<StepperItem[]>[
   {
     title: t("dashboard.content_area.property_info"),
     slot: "property" as const,
@@ -177,7 +240,7 @@ const createPropertiesStepper = ref([
   {
     title: t("dashboard.content_area.room_setup"),
     slot: "rooms" as const,
-    description:t("dashboard.content_area.room_setup_desc"),
+    description: t("dashboard.content_area.room_setup_desc"),
     icon: "i-lucide-bed",
   },
   {
@@ -188,24 +251,32 @@ const createPropertiesStepper = ref([
   },
 ]);
 const formData = reactive<{
-  property: PropertySchema
-  roomSetup: RoomSetupSchema
+  property: PropertySchema;
+  roomSetup: RoomSetupSchema;
 }>({
   property: {
-    name: '',
-    address: '',
-    city: '',
-    description: '',
-    props_image: undefined
+    name: "",
+    address: "",
+    city: "",
+    description: "",
+    props_image: undefined,
   },
   roomSetup: {
-    floors: []
-  }
-})
+    floors: [],
+  },
+});
 function submitAll() {
   console.log(" Final data submitted:", formData);
 }
+function handleEdit(propertyId: number) {
+  selectedPropertyId.value = propertyId;
+  isEditModalOpen.value = true;
+}
 
+function handleDelete(propertyId: number) {
+  selectedPropertyId.value = propertyId;
+  isDeleteModalOpen.value = true;
+}
 definePageMeta({
   layout: "dashboard",
 });

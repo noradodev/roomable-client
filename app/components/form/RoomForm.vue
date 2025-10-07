@@ -26,7 +26,7 @@
     </div>
 
     <div v-for="(floor, fIndex) in state.floors" :key="fIndex">
-      <UCard>
+      <UCard class="bg-white/50">
         <template #header>
           <div class="flex justify-between items-center w-full">
             <div class="flex gap-2">
