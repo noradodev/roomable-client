@@ -1,9 +1,36 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
+import type { NavigationMenuItem, DropdownMenuItem } from "@nuxt/ui";
 import { en, km } from "@nuxt/ui/locale";
 const { locale, setLocale, t } = useI18n({ useScope: "global" });
-const localePath = useLocalePath()
-
+const localePath = useLocalePath();
+const profileItems = ref<DropdownMenuItem[][]>([
+  [
+    {
+      label: 'Rado No',
+      avatar: {
+        src: 'https://github.com/benjamincanac.png'
+      },
+      type: 'label'
+    }
+  ],
+  [
+    {
+      label: 'Profile',
+      icon: 'i-lucide-user'
+    },
+    {
+      label: 'Billing',
+      icon: 'i-lucide-credit-card'
+    },
+  ],
+  [
+    {
+      label: 'Logout',
+      icon: 'i-lucide-log-out',
+      kbds: ['shift', 'meta', 'q']
+    }
+  ]
+])
 const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.menu"),
@@ -12,7 +39,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.dashboard"),
     icon: "i-lucide-layout-dashboard",
-    to: localePath("/dashboard")
+    to: localePath("/dashboard"),
   },
   {
     label: t("dashboard.sidebar.payments"),
@@ -56,25 +83,35 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
 ]);
 </script>
-  <template>
-    <UDashboardGroup>
-      <UDashboardSidebar
-        collapsible
-        class="transition-all duration-300 bg-white"
-        :min-size="100"
-      >
-        <template #header="{ collapsed }">
-          <NuxtLink to="/" class="mt-3">
-            <img
-              src="../assets/logo/roomable-logo.svg"
-              alt="logo"
-              class="w-52 h-auto"
-            />
-          </NuxtLink>
-        </template>
+<template>
+  <UDashboardGroup>
+    <UDashboardSidebar
+      collapsible
+      class="transition-all duration-300 bg-white"
+      :min-size="100"
+    >
+      <template #header="{ collapsed }">
+        <NuxtLink to="/" class="mt-3">
+          <img
+            src="../assets/logo/roomable-logo.svg"
+            alt="logo"
+            class="w-52 h-auto"
+          />
+        </NuxtLink>
+      </template>
 
-        <template #default="{ collapsed }">
-          <USeparator orientation="horizontal" />
+      <template #default="{ collapsed }">
+        <USeparator orientation="horizontal" />
+        <UDropdownMenu
+        :content="{
+          side: 'right',
+          align: 'start'
+        }"
+          :items="profileItems"
+          :ui="{
+            content: 'w-48',
+          }"
+        >
           <UButton
             variant="ghost"
             color="neutral"
@@ -109,56 +146,54 @@ const items = computed<NavigationMenuItem[]>(() => [
               </div>
             </div>
           </UButton>
-          <USeparator />
-          <UNavigationMenu
-            :items="items"
-            orientation="vertical"
-            color="primary"
-          >
-            <template #item-leading="{ item }">
-              <div
-                v-show="!item.type"
-                class="flex items-center justify-center w-10 h-10 transition-all duration-300"
-              >
-                <UIcon :name="item.icon ?? ''" class="text-2xl" />
-              </div>
-            </template>
+        </UDropdownMenu>
 
-            <template #item-label="{ item }">
-              <span
-                v-if="!collapsed"
-                class="transition-all duration-300 whitespace-nowrap"
-              >
-                {{ item.label }}
-              </span>
-            </template>
-          </UNavigationMenu>
-        </template>
-
-        <template #footer="{ collapsed }">
-          <div class="space-y-2 w-full">
-            <ULocaleSelect
-              v-model="locale"
-              :locales="[en, km]"
-              @update:model-value="setLocale($event)"
-              variant="outline"
-              size="lg"
-              class="!w-full py-2 bg-white"
-            />
-
-            <div class="logout-action w-full">
-              <UButton
-                variant="ghost"
-                color="error"
-                icon="i-lucide-log-out"
-                class="w-full py-4"
-              >
-                {{ t("dashboard.sidebar.logout") }}
-              </UButton>
+        <USeparator />
+        <UNavigationMenu :items="items" orientation="vertical" color="primary">
+          <template #item-leading="{ item }">
+            <div
+              v-show="!item.type"
+              class="flex items-center justify-center w-10 h-10 transition-all duration-300"
+            >
+              <UIcon :name="item.icon ?? ''" class="text-2xl" />
             </div>
+          </template>
+
+          <template #item-label="{ item }">
+            <span
+              v-if="!collapsed"
+              class="transition-all duration-300 whitespace-nowrap"
+            >
+              {{ item.label }}
+            </span>
+          </template>
+        </UNavigationMenu>
+      </template>
+
+      <template #footer="{ collapsed }">
+        <div class="space-y-2 w-full">
+          <ULocaleSelect
+            v-model="locale"
+            :locales="[en, km]"
+            @update:model-value="setLocale($event)"
+            variant="outline"
+            size="lg"
+            class="!w-full py-2 bg-white"
+          />
+
+          <div class="logout-action w-full">
+            <UButton
+              variant="ghost"
+              color="error"
+              icon="i-lucide-log-out"
+              class="w-full py-4"
+            >
+              {{ t("dashboard.sidebar.logout") }}
+            </UButton>
           </div>
-        </template>
-      </UDashboardSidebar>
-      <slot />
-    </UDashboardGroup>
-  </template>
+        </div>
+      </template>
+    </UDashboardSidebar>
+    <slot />
+  </UDashboardGroup>
+</template>
