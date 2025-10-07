@@ -62,43 +62,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from 'vue'
-import type { Form } from '@nuxt/ui'
-import { propertySchema, type PropertySchema } from '~/schemas/property.schema'
-
+import { ref, watch, reactive } from "vue";
+import type { Form } from "@nuxt/ui";
+import { propertySchema, type PropertySchema } from "~/schemas/property.schema";
+const { t } = useI18n();
 const props = defineProps<{
-  modelValue?: PropertySchema
-}>()
+  modelValue?: PropertySchema;
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: PropertySchema): void
-  (e: 'next'): void
-}>()
+  (e: "update:modelValue", value: PropertySchema): void;
+  (e: "next"): void;
+}>();
 
-const schema = propertySchema
+const schema = propertySchema(t);
 const state = reactive<PropertySchema>({
-  name: props.modelValue?.name ?? '',
-  address: props.modelValue?.address ?? '',
-  city: props.modelValue?.city ?? '',
-  description: props.modelValue?.description ?? '',
-  props_image: props.modelValue?.props_image ?? undefined
-})
+  name: props.modelValue?.name ?? "",
+  address: props.modelValue?.address ?? "",
+  city: props.modelValue?.city ?? "",
+  description: props.modelValue?.description ?? "",
+  props_image: props.modelValue?.props_image ?? undefined,
+});
 
-const formRef = ref<Form<PropertySchema> | null>(null)
+const formRef = ref<Form<PropertySchema> | null>(null);
 
 watch(
   () => state,
   (val) => {
-    emit('update:modelValue', JSON.parse(JSON.stringify(val)))
+    emit("update:modelValue", JSON.parse(JSON.stringify(val)));
   },
   { deep: true }
-)
+);
 
 const handleSubmit = async () => {
-  const result = await formRef.value?.validate()
-  if (!result) return
+  const result = await formRef.value?.validate();
+  if (!result) return;
 
-  emit('update:modelValue', JSON.parse(JSON.stringify(state)))
-  emit('next')
-}
+  emit("update:modelValue", JSON.parse(JSON.stringify(state)));
+  emit("next");
+};
 </script>

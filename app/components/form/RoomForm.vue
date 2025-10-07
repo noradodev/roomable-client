@@ -2,7 +2,7 @@
   <UForm
     ref="formRef"
     :state="state"
-    :schema="roomSetupSchema"
+    :schema="roomSetUpSchemas"
     class="space-y-4"
     @submit="handleSubmit"
   >
@@ -47,11 +47,11 @@
                 label="Floor Number"
                 required
               >
-                <UInput
-                  v-model.number="floor.number"
+                <UInputNumber
+                  v-model="floor.number"
                   placeholder="No."
-                  type="number"
                   size="lg"
+                  :min="0"
                   class="w-24"
                 />
               </UFormField>
@@ -94,11 +94,17 @@
           >
             <UInput v-model="room.roomNumber" placeholder="Room #" size="lg" />
             <UInput v-model="room.type" placeholder="Type" size="lg" />
-            <UInput
-              v-model.number="room.price"
+            <UInputNumber
+              v-model="room.price"
               placeholder="Price"
-              type="number"
+              :format-options="{
+                style: 'currency',
+                currency: 'USD',
+                currencyDisplay: 'code',
+                currencySign: 'accounting',
+              }"
               size="lg"
+              :min="0"
             />
             <div class="flex justify-end">
               <UButton
@@ -135,6 +141,9 @@ import { useRoomSetup } from "~/composables/useRoomSetup";
 import { roomSetupSchema, type RoomSetupSchema } from "~/schemas/room.schema";
 import type { Form } from "@nuxt/ui";
 
+const { t } = useI18n();
+
+const roomSetUpSchemas = roomSetupSchema(t);
 const props = defineProps<{
   modelValue?: RoomSetupSchema;
 }>();

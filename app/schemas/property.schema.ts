@@ -5,7 +5,7 @@ import {
   formatBytes,
 } from "~/utils/image";
 
-export const propertySchema = z.object({
+export const propertySchema = (t: (key: string, param?: Record<string, any>) => string) => z.object({
   name: z.string().min(1, "Property name is required"),
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
@@ -25,4 +25,4 @@ export const propertySchema = z.object({
   ]),
 });
 
-export type PropertySchema = z.output<typeof propertySchema>;
+export type PropertySchema = z.output<ReturnType<typeof propertySchema>>;
