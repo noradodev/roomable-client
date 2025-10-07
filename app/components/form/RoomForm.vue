@@ -7,14 +7,14 @@
     @submit="handleSubmit"
   >
     <div class="flex justify-between items-center">
-      <h3 class="text-lg font-bold">Floors & Rooms</h3>
+      <h3 class="text-lg font-bold">{{  t('dashboard.content_area.floor_room')}}</h3>
       <UButton
         icon="i-lucide-plus"
         color="primary"
         variant="soft"
         @click="addFloor"
       >
-        Add Floor
+        {{ t("dashboard.content_area.add_floor") }}
       </UButton>
     </div>
 
@@ -22,7 +22,7 @@
       v-if="state.floors.length === 0"
       class="text-center text-gray-500 py-6"
     >
-      <p class="text-sm">No floors added yet. Click "Add Floor" to start.</p>
+      <p class="text-sm">{{t('dashboard.content_area.no_floor')}}</p>
     </div>
 
     <div v-for="(floor, fIndex) in state.floors" :key="fIndex">
@@ -32,19 +32,19 @@
             <div class="flex gap-2">
               <UFormField
                 :name="`floors.${fIndex}.name`"
-                label="Floor Name"
+                :label="t('dashboard.content_area.floor_name')"
                 required
               >
                 <UInput
                   v-model="floor.name"
-                  placeholder="Floor name (e.g. Ground Floor)"
+                  :placeholder="t('dashboard.content_area.floor_plc')"
                   size="lg"
                   class="w-48"
                 />
               </UFormField>
               <UFormField
                 :name="`floors.${fIndex}.number`"
-                label="Floor Number"
+                :label="t('dashboard.content_area.floor_number')"
                 required
               >
                 <UInputNumber
@@ -68,7 +68,7 @@
 
         <div class="space-y-4">
           <div class="flex justify-between items-center">
-            <h4 class="font-semibold">Rooms</h4>
+            <h4 class="font-semibold">{{ t('dashboard.content_area.room') }}</h4>
             <UButton
               icon="i-lucide-bed"
               size="sm"
@@ -76,7 +76,7 @@
               color="primary"
               @click="addRoom(fIndex)"
             >
-              Add Room
+              {{ t("dashboard.content_area.add_room") }}
             </UButton>
           </div>
 
@@ -84,7 +84,7 @@
             v-if="floor.rooms.length === 0"
             class="text-sm text-gray-400 italic"
           >
-            No rooms yet.
+            {{t('dashboard.content_area.no_room')}}
           </div>
 
           <div
@@ -92,11 +92,11 @@
             :key="rIndex"
             class="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center"
           >
-            <UInput v-model="room.roomNumber" placeholder="Room #" size="lg" />
-            <UInput v-model="room.type" placeholder="Type" size="lg" />
+            <UInput v-model="room.roomNumber" :placeholder="t('dashboard.content_area.room_plc')" size="lg" />
+            <UInput v-model="room.type" :placeholder="t('dashboard.content_area.room_type')" size="lg" />
             <UInputNumber
               v-model="room.price"
-              placeholder="Price"
+              :placeholder="t('dashboard.content_area.room_price')"
               :format-options="{
                 style: 'currency',
                 currency: 'USD',
@@ -120,7 +120,7 @@
     </div>
 
     <div class="pt-4 flex justify-end gap-2">
-      <UButton variant="soft" @click="$emit('back')">Back</UButton>
+      <UButton variant="soft" @click="$emit('back')">{{ t("dashboard.content_area.back_btn") }}</UButton>
       <UButton
         color="primary"
         type="submit"
@@ -129,7 +129,7 @@
           state.floors.length === 0 ||
           state.floors.some((f) => f.rooms.length === 0)
         "
-        >Next</UButton
+        >{{ t("dashboard.content_area.next_btn") }}</UButton
       >
     </div>
   </UForm>
@@ -140,8 +140,7 @@ import { ref, watch } from "vue";
 import { useRoomSetup } from "~/composables/useRoomSetup";
 import { roomSetupSchema, type RoomSetupSchema } from "~/schemas/room.schema";
 import type { Form } from "@nuxt/ui";
-
-const { t } = useI18n();
+const { t } = useI18n({ useScope: "global" });
 
 const roomSetUpSchemas = roomSetupSchema(t);
 const props = defineProps<{

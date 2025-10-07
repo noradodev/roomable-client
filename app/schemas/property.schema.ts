@@ -6,20 +6,20 @@ import {
 } from "~/utils/image";
 
 export const propertySchema = (t: (key: string, param?: Record<string, any>) => string) => z.object({
-  name: z.string().min(1, "Property name is required"),
-  address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
+  name: z.string().min(1, t("validation_message.name_required")),
+  address: z.string().min(1, t("validation_message.address_required")),
+  city: z.string().min(1, t("validation_message.city_required")),
   description: z.string().optional(),
   props_image: z.union([
     z
       .instanceof(File)
       .refine((file) => file.size <= MAX_FILE_SIZE, {
-        message: `The image is too large. Please choose an image smaller than ${formatBytes(
+        message: `${t("validation_message.image_too_large")} ${formatBytes(
           MAX_FILE_SIZE
         )}.`,
       })
       .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-        message: "Please upload a valid image file (JPEG, PNG, or WebP).",
+        message: t("validation_message.image_too_large"),
       }),
     z.undefined(),
   ]),

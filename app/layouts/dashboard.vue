@@ -15,17 +15,17 @@ const profileItems = ref<DropdownMenuItem[][]>([
   ],
   [
     {
-      label: 'Profile',
+      label: t("dashboard.sidebar.profile"),
       icon: 'i-lucide-user'
     },
     {
-      label: 'Billing',
+      label: t("dashboard.sidebar.billing"),
       icon: 'i-lucide-credit-card'
     },
   ],
   [
     {
-      label: 'Logout',
+      label: t("dashboard.sidebar.logout"),
       icon: 'i-lucide-log-out',
       kbds: ['shift', 'meta', 'q']
     }

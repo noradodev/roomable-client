@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n({ useScope: "global" });
 const items = ref([
-  t("dashboard.content_area.latest_properties"),
+  t("dashboard.content_area.latest_property"),
   t("dashboard.content_area.all_properties"),
 ]);
 const value = ref(items.value[0]);
@@ -34,7 +34,7 @@ const properties = ref([
   //   statusText: "Inactive",
   //   statusColor: "error",
   //   roomsRemaining: 0,
-  //   totalRooms: 6,
+  //   totalRooms: 6,     
   // },
 ]);
 definePageMeta({
@@ -63,7 +63,7 @@ definePageMeta({
           <CommonStatsCard
             icon="i-lucide-building-2"
             :increase="10"
-            :sub-header="t('dashboard.content_area.total_properties')"
+            :sub-header="t('dashboard.content_area.total_property')"
             :total="12"
           />
           <CommonStatsCard
@@ -125,11 +125,10 @@ definePageMeta({
               class="text-5xl text-gray-400 mb-4"
             />
             <h3 class="text-xl font-semibold text-gray-800 mb-2">
-              No Properties Yet
+              {{t("dashboard.content_area.no_property")}}
             </h3>
             <p class="text-gray-500 text-sm mb-6 max-w-sm">
-              Start by adding your first property to manage rooms, track
-              performance, and unlock more features.
+              {{t("dashboard.content_area.no_property_desc")}}
             </p>
 
             <ULink
@@ -137,7 +136,7 @@ definePageMeta({
               class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-600 text-sm text-white font-medium hover:bg-primary-700 hover:text-white transition-colors duration-200"
             >
               <UIcon name="i-lucide-plus" class="text-base" />
-              Add New Property
+              <span>{{t("dashboard.content_area.add_property")}}</span>
             </ULink>
           </div>
         </div>
@@ -145,7 +144,7 @@ definePageMeta({
         <div class="q-section bg-white p-4 sm:pt-2 sm:p-6 shadow">
           <div class="q-maintenance-request">
             <div class="flex justify-between items-center my-4">
-              <h5 class="font-bold text-lg">Maintenance requests</h5>
+              <h5 class="font-bold text-lg">{{t("dashboard.content_area.maintenance-req")}}</h5>
               <div class="filter-action">
                 <USelect
                   v-model="value"

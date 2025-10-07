@@ -24,18 +24,67 @@
       "general" : "GENERAL",
       "settings" : "Settings",
       "support" : "Support",
-      "logout" : "Logout"
+      "logout" : "Logout",
+
+      "profile" : "Profile",
+      "billing" : "Billing"
     },
     "content_area" : {  
-      "total_properties" : "Total Properties",
       "total_rooms" : "Total Rooms",
       "total_tenants" : "Total Tenants",
       "total_income" : "Total Income",
-      "latest_properties" : "Latest Properties",
-      "all_properties" : "All Properties",
       "room_renting" : "Rooms renting",
-      "last_month" : "Last month"
+      "last_month" : "Last month",
 
+      "total_property" : "Total Properties",
+      "all_property" : "All Properties",
+      "latest_property" : "Latest Properties",
+      "no_property":"No Properties Yet",
+      "no_property_desc" : "Start by adding your first property to manage rooms, track performance, and unlock more features.",
+      "add_property" : "Add New Property",
+      "add_property_desc" : "Start by adding the property's basic details. Once saved, you can add rooms under this property based on your subscription plan.",
+    
+      "search_property" : "Search properties...",
+
+      "property_info" : "Property Information",
+      "room_setup" : "Rooms Setup",
+      "review_finish" : "Review & Finish",
+
+      "property_info_desc" : "Enter the property's name, address, and basic details.",
+      "room_setup_desc" : "Add and configure rooms under this property. Limits depend on your plan.",
+      "review_finish_desc" : "Check your details before saving.",
+
+      "property_name" : "Property Name",
+      "property_address" : "Address",
+      "property_city" : "City",
+      "property_description" : "Description",
+      "property_img" : "Property Image",  
+
+      "property_name_desc" : "e.g. Sunrise Apartment",
+      "property_address_desc" : "Street, Number...",
+      "property_city_desc" : "Cie.g. Phnom Penh",
+      "property_description_desc" : "Optional description",
+      "property_img_label" : "Drop your image here",
+      "property_img_desc" : "PNG, JPG, JPEG, or WebP (max. 5MB)",
+
+      "floor_room" : "Floors & Rooms",
+      "no_floor" : "No floors added yet. Click \"Add Floor\" to start.",
+      "room" : "Rooms",
+      "no_room" : "No room yet.",
+      "add_floor" : "Add Floor",
+      "add_room" : "Add Rooms",
+
+      "floor_name": "Floor Name",
+      "floor_number": "Floor Number",
+      "floor_plc" : "Floor name (e.g. Ground Floor)",
+      "room_plc" : "Room No: ",
+      "room_type" : "Type",
+      "room_price" : "Price",
+
+      "next_btn" : "Next",
+      "back_btn" : "Back",
+
+      "maintenance-req" : "Recent Maintenance requests"
     }
   },
   "validation_message" : {
@@ -46,6 +95,23 @@
     "password_required": "Password is required",
     "password_min_8":"Passowrd must be at least 8 characters",
     "confirm_password": "Password don't match!",
-    "term_condition" : "You must agree to the terms and conditions"
+    "term_condition" : "You must agree to the terms and conditions",
+
+    "name_required": "Property name is required.",
+    "address_required": "Address is required.",
+    "city_required": "City is required.",
+    "image_too_large": "The image is too large. Please choose an image smaller than ",
+    "image_invalid_type": "Please upload a valid image file (JPEG, PNG, or WebP).",
+
+    "room_number_required": "Room number is required.",
+    "room_type_required": "Room type is required.",
+    "price_required": "Price is required.",
+
+    "floor_name_required": "Floor name is required.",
+    "floor_number_required": "Floor number is required.",
+    "floor_min_one_room": "Each floor must have at least one room.",
+    "min_one_floor": "At least one floor is required."
+
+
   }
 }

@@ -6,48 +6,67 @@
     class="space-y-4 w-full"
     @submit="handleSubmit"
   >
-    <UFormField name="name" label="Property Name" required>
+    <UFormField 
+      name="name" 
+      :label="t('dashboard.content_area.property_name')" 
+      required
+    >
       <UInput
         v-model="state.name"
-        placeholder="e.g. Sunrise Apartment"
+        :placeholder="t('dashboard.content_area.property_name_desc')"
         class="w-full"
         size="xl"
       />
     </UFormField>
 
-    <UFormField name="address" label="Address" required>
+    <UFormField 
+      name="address" 
+      :label="t('dashboard.content_area.property_address')" 
+      required
+    >
       <UInput
         v-model="state.address"
-        placeholder="Street, Number..."
+        :placeholder="t('dashboard.content_area.property_address_desc')"
         class="w-full"
         size="xl"
       />
     </UFormField>
 
-    <UFormField name="city" label="City" required>
+    <UFormField 
+      name="city" 
+      :label="t('dashboard.content_area.property_city')" 
+      required
+    >  
       <UInput
         v-model="state.city"
-        placeholder="e.g. Phnom Penh"
+        :placeholder="t('dashboard.content_area.property_city_desc')"
         class="w-full"
         size="xl"
       />
     </UFormField>
 
-    <UFormField name="description" label="Description">
+    <UFormField 
+      name="description" 
+      :label="t('dashboard.content_area.property_description')"
+    >
       <UTextarea
         v-model="state.description"
-        placeholder="Optional description"
+        :placeholder="t('dashboard.content_area.property_description_desc')"
         class="w-full"
         size="xl"
       />
     </UFormField>
 
-    <UFormField name="props_image" label="Property Image">
+    <UFormField 
+      name="props_image" 
+      :label="t('dashboard.content_area.property_img')"
+    >
       <UFileUpload
         v-model="state.props_image"
         icon="i-lucide-image"
-        label="Drop your image here"
-        description="PNG, JPG, JPEG, or WebP (max. 2MB)"
+        :label="t('dashboard.content_area.property_img_label')"
+        :description="t('dashboard.content_area.property_img_desc')"
+        
         class="w-full min-h-48"
         accept="image/*"
         variant="area"
@@ -56,16 +75,18 @@
     </UFormField>
 
     <div class="flex justify-end pt-4">
-      <UButton type="submit" color="primary" size="lg">Next</UButton>
+      <UButton type="submit" color="primary" size="lg">{{ t("dashboard.content_area.next_btn") }}</UButton>
     </div>
   </UForm>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
-import type { Form } from "@nuxt/ui";
-import { propertySchema, type PropertySchema } from "~/schemas/property.schema";
-const { t } = useI18n();
+import { ref, watch, reactive } from 'vue'
+import type { Form } from '@nuxt/ui'
+import { propertySchema, type PropertySchema } from '~/schemas/property.schema'
+
+const { t } = useI18n({ useScope: "global" });
+
 const props = defineProps<{
   modelValue?: PropertySchema;
 }>();
