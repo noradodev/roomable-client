@@ -16,27 +16,77 @@
       "menu" : "មីនុយ",
       "dashboard": "ផ្ទាំងគ្រប់គ្រង",
       "payments" :"ការទូទាត់",
-      "maintenance" : "ការថែទាំ",
+      "maintenance" : "ការជួសជុល",
       "data" : "ទិន្នន័យ",
       "properties" : "អគារ",
       "tenants" : "អ្នកជួល",
       "reports" : "របាយការណ៏",
       "general" : "ទូទៅ",
       "settings" : "ការគ្រប់គ្រង",
-      "support" : "ជំនួយ",
-      "logout" : "ចេញ"
+      "support" : "ជំនួយ",  
+      "logout" : "ចេញ",
 
+      "profile" : "ប្រូហ្វាល់",
+      "billing" : "វិក្កយបត្រ"
 
     },
     "content_area" : {  
-      "total_properties" : "អគារសរុប",
       "total_rooms" : "បន្ទប់សរុប",
       "total_tenants" : "អ្នកជួលសរុប",
       "total_income" : "ចំណូលសរុប",
-      "latest_properties" : "អគារថ្មីបំផុត",
-      "all_properties" : "អគារទាំងអស់",
       "room_renting" : "បន្ទប់កំពុងជួល",
-      "last_month" : "ក្នុងខែមុន"
+      "last_month" : "ក្នុងខែមុន",
+
+      "total_property" : "អគារសរុប",
+      "latest_property" : "អគារថ្មីបំផុត",
+      "all_properties" : "អគារទាំងអស់",
+      "no_property":"មិនទាន់មានអគារ",
+      "no_property_desc" : "ចាប់ផ្តើមដោយបន្ថែមអគារដំបូងរបស់អ្នក ដើម្បីគ្រប់គ្រងបន្ទប់ តាមប្រតិបត្តិការ និងប្រើប្រាស់លក្ខណៈពិសេសច្រើនទៀត។",
+      "add_property" : "បន្ថែមអគារថ្មី",
+      "add_property_desc" : "ចាប់ផ្តើមដោយបញ្ចូលព័ត៌មានមូលនៃអគាររបស់អ្នក​ បន្ទាប់ពីបានរក្សាទុក អ្នកអាចបន្ថែមបន្ទប់សម្រាប់អគារនេះទៅតាមផែនការប្រើប្រាស់របស់អ្នក",
+    
+      "search_property" : "ស្វែងរកអគារ...", 
+      
+      "property_info" : "ព័ត៌មានអគារ",
+      "room_setup" : "រៀបចំបន្ទប់",
+      "review_finish" : "ពិនិត្យ និងបញ្ចប់",
+      
+      "property_info_desc" : "បញ្ចូលឈ្មោះអគារ អាសយដ្ឋាន និងព័ត៌មានផ្សេងៗ",
+      "room_setup_desc" : "បន្ថែម និងកំណត់ការរៀបចំបន្ទប់សម្រាប់អគារនេះ​ ការកំណត់អាចផ្អែកទៅលើផែនការរបស់អ្នក",
+      "review_finish_desc" : "សូមពិនិត្យព័ត៌មានម្តងទៀតមុនពេលរក្សាទុក",
+
+      "property_name" : "ឈ្មោះអគារ",
+      "property_address" : "អាសយដ្ឋាន",
+      "property_city" : "ទីក្រុង / ខេត្ត",
+      "property_description" : "ការពិពណ៌នា",
+      "property_img" : "រូបភាពអគារ",
+
+      "property_name_desc" : "ឧ. Sunrise Apartment",
+      "property_address_desc" : "ផ្លូវ លេខ…",
+      "property_city_desc" : "ឧ. ភ្នំពេញ", 
+      "property_description_desc" : "ការពិពណ៌នាបន្ថែម (មិនចាំបាច់)",
+      "property_img_label" : "ទម្លាក់រូបភាពនៅទីនេះ",
+      "property_img_desc" : "ឯកសារ PNG, JPG, JPEG ឬ WebP (អតិបរមា 5MB)",
+
+      "floor_room" : "ជាន់ និងបន្ទប់",
+      "no_floor" : "មិនទាន់មានជាន់ទេ។ ចុច \"បន្ថែមជាន់\" ដើម្បីចាប់ផ្តើម។",
+      "room" : "បន្ទប់",
+      "no_room" : "មិនទាន់មានបន្ទប់ទេ",
+      "add_floor" : "បន្ថែមជាន់",
+      "add_room" : "បន្ថែមបន្ទប់",
+
+      "floor_name": "ឈ្មោះជាន់",
+      "floor_number": "លេខេជាន់",
+      "floor_plc" : "ឈ្មោះជាន់ (ឧ. ជាន់ផ្ទាល់ដី)",
+      "room_plc" : "បន្ទប់​ លេខ #",
+      "room_type" : "ប្រភេទបន្ទប់​",
+      "room_price" : "តម្លៃ",
+
+      "next_btn" : "បន្ទាប់",
+      "back_btn" : "ថយក្រោយ",
+
+      
+      "maintenance-req" : "ការស្នើរសំុជួសជុលថ្មីៗ"
 
 
     }
@@ -49,7 +99,21 @@
     "password_required": "សូមបញ្ចូលពាក្យសម្ងាត់",
     "password_min_8":"ពាក្យសម្ងាត់ត្រូវតែមានយ៉ាងតិច 8 តួអក្សរ",
     "confirm_password": "លេខសម្ងាត់បញ្ចាក់មិនដូចគ្នា!",
-    "term_condition" : "សូមមេត្តាយល់ស្របតាមលក្ខខណ្ឌ​ ​និងបទបញ្ញាត្តិ​​​ខាងលើ"
+    "term_condition" : "សូមមេត្តាយល់ស្របតាមលក្ខខណ្ឌ​ ​និងបទបញ្ញាត្តិ​​​ខាងលើ",
+
+    "name_required": "សូមបញ្ចូលឈ្មោះអគារ",
+    "address_required": "សូមបញ្ចូលអាសយដ្ឋាន",
+    "city_required": "សូមបញ្ចូលទីក្រុង ឬ ខេត្ត",
+    "image_too_large": "រូបភាពធំពេក។ សូមជ្រើសរើសរូបភាពដែលមានទំហំតិចជាង​ ",
+    "image_invalid_type": "សូមបញ្ចូលរូបភាពដែលមានប្រភេទត្រឹមត្រូវ (JPEG, PNG ឬ WebP)।",
+
+    "room_number_required": "សូមបញ្ចូលលេខបន្ទប់",
+    "room_type_required": "សូមជ្រើសប្រភេទបន្ទប់",
+    "price_required": "សូមបញ្ចូលតម្លៃ",
+    "floor_name_required": "សូមបញ្ចូលឈ្មោះជាន់",
+    "floor_number_required": "សូមបញ្ចូលលេខជាន់",
+    "floor_min_one_room": "ជាន់នីមួយៗត្រូវមានបន្ទប់យ៉ាងហោចណាស់មួយបន្ទប់",
+    "min_one_floor": "ត្រូវមានយ៉ាងហោចណាស់មួយជាន់"
   }
   
 }
