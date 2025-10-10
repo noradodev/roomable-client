@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import type { PropertySchema } from "~/schemas/property.schema";
 import type { RoomSetupSchema } from "~/schemas/room.schema";
+const { t } = useI18n(); 
 
 const props = defineProps<{
   property: PropertySchema;
@@ -31,9 +32,9 @@ const goBackToRoomAndFloor = () => {
 <template>
   <div class="space-y-8">
     <div class="text-center space-y-2">
-      <h2 class="text-3xl font-bold tracking-tight">Review & Finish</h2>
+      <h2 class="text-3xl font-bold tracking-tight">{{ t("dashboard.content_area.review_finish") }}</h2>
       <p class="text-gray-500 text-sm">
-        Make sure everything looks good before you publish this property.
+        {{ t("dashboard.content_area.review_desc") }}
       </p>
     </div>
 
@@ -43,7 +44,7 @@ const goBackToRoomAndFloor = () => {
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold flex items-center gap-2">
           <UIcon name="i-lucide-building-2" class="text-primary size-5" />
-          Property Details
+          {{ t("dashboard.content_area.property_details") }}
         </h3>
         <UButton
           variant="soft"
@@ -52,13 +53,13 @@ const goBackToRoomAndFloor = () => {
           size="xs"
           @click="goBackToProperty"
         >
-          Edit
+          {{ t("dashboard.content_area.edit_btn") }}
         </UButton>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <p class="text-gray-500 text-sm">Name</p>
+          <p class="text-gray-500 text-sm">{{ t("dashboard.content_area.property_name") }}</p>
           <p class="font-medium text-base">{{ props.property.name || "—" }}</p>
         </div>
         <div>
@@ -66,13 +67,13 @@ const goBackToRoomAndFloor = () => {
           <p class="font-medium text-base">{{ props.property.city || "—" }}</p>
         </div>
         <div>
-          <p class="text-gray-500 text-sm">Address</p>
+          <p class="text-gray-500 text-sm">{{ t("dashboard.content_area.property_city") }}</p>
           <p class="font-medium text-base">
             {{ props.property.address || "—" }}
           </p>
         </div>
         <div>
-          <p class="text-gray-500 text-sm">Description</p>
+          <p class="text-gray-500 text-sm">{{ t("dashboard.content_area.property_description") }}</p>
           <p class="font-medium text-base line-clamp-2">
             {{ props.property.description || "No description provided." }}
           </p>
@@ -94,7 +95,7 @@ const goBackToRoomAndFloor = () => {
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold flex items-center gap-2">
           <UIcon name="i-lucide-bed" class="text-primary size-5" />
-          Floors & Rooms
+          {{ t("dashboard.content_area.floor_room") }}
         </h3>
         <UButton
           variant="soft"
@@ -104,7 +105,7 @@ const goBackToRoomAndFloor = () => {
           @click="goBackToRoomAndFloor"
 
         >
-          Edit
+          {{ t("dashboard.content_area.edit_btn") }}
         </UButton>
       </div>
 
@@ -112,7 +113,7 @@ const goBackToRoomAndFloor = () => {
         v-if="props.roomSetup.floors.length === 0"
         class="text-gray-500 italic text-sm"
       >
-        No floors or rooms have been added yet.
+        {{ t("dashboard.content_area.no_floor_room") }}
       </div>
 
       <div v-else class="space-y-3">

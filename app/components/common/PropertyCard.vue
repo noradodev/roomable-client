@@ -112,12 +112,12 @@ const emit = defineEmits<{
 const items: DropdownMenuItem[][] = [
   [
     {
-      label: "View Rooms",
+      label: t('dashboard.content_area.view_rooms'),
       icon: "i-lucide-eye",
       to: localePath(`/properties/${props.uuid}`)
     },
     {
-      label: "Edit Property",
+      label: t('dashboard.content_area.edit_property'),
       icon: "i-lucide-pencil",
       onSelect: () => {
         emit("edit");
@@ -126,7 +126,7 @@ const items: DropdownMenuItem[][] = [
   ],
   [
     {
-      label: "Delete This Property",
+      label: t('dashboard.content_area.delete_property'),
       color: "error",
       icon: "i-lucide-trash",
       onSelect: () => {
