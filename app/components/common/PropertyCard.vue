@@ -112,7 +112,7 @@ const emit = defineEmits<{
 const items: DropdownMenuItem[][] = [
   [
     {
-      label: "View Rooms",
+      label: "View Rooms",  
       icon: "i-lucide-eye",
       to: localePath(`/properties/${props.uuid}`)
     },
