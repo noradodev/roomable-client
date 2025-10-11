@@ -49,6 +49,7 @@
       "property_info" : "Property Information",
       "room_setup" : "Rooms Setup",
       "review_finish" : "Review & Finish",
+      "review_desc" : "Make sure everything looks good before you publish this property.",
 
       "property_info_desc" : "Enter the property's name, address, and basic details.",
       "room_setup_desc" : "Add and configure rooms under this property. Limits depend on your plan.",
@@ -59,6 +60,7 @@
       "property_city" : "City",
       "property_description" : "Description",
       "property_img" : "Property Image",  
+      "property_details" : "Property Details",
 
       "property_name_desc" : "e.g. Sunrise Apartment",
       "property_address_desc" : "Street, Number...",
@@ -67,12 +69,20 @@
       "property_img_label" : "Drop your image here",
       "property_img_desc" : "PNG, JPG, JPEG, or WebP (max. 5MB)",
 
+      "delete_property" : "Delete this property?",
+      "delete_property_desc1" : "You're about to permanently remove​​ this property",
+      "delete_property_desc2" : ". This action cannot be undone.",
+      "create_property" : "Create new property",
+      "edit_property" : "Edit Property",
+
       "floor_room" : "Floors & Rooms",
       "no_floor" : "No floors added yet. Click \"Add Floor\" to start.",
+      "no_floor_room" : "No floors or rooms have been added yet.",
       "room" : "Rooms",
       "no_room" : "No room yet.",
       "add_floor" : "Add Floor",
       "add_room" : "Add Rooms",
+      "view_rooms" : "View Rooms",
 
       "floor_name": "Floor Name",
       "floor_number": "Floor Number",
@@ -83,7 +93,10 @@
 
       "next_btn" : "Next",
       "back_btn" : "Back",
-
+      "cancel_btn" : "Cancel",
+      "delete_btn" : "Delete",
+      "edit_btn" : "Edit",
+      
       "maintenance-req" : "Recent maintenance requests"
     }
   },
@@ -106,7 +119,7 @@
     "room_number_required": "Room number is required.",
     "room_type_required": "Room type is required.",
     "price_required": "Price is required.",
-
+    
     "floor_name_required": "Floor name is required.",
     "floor_number_required": "Floor number is required.",
     "floor_min_one_room": "Each floor must have at least one room.",

@@ -51,6 +51,7 @@
                 class="ml-2"
                 size="lg"
                 icon="i-lucide-plus"
+                
               />
 
               <template #body>
@@ -89,10 +90,10 @@
                           variant="soft"
                           @click="!stepper?.prev()"
                         >
-                          Back
+                          {{ t("dashboard.content_area.back_btn") }}
                         </UButton>
                         <UButton color="primary" @click="submitAll">
-                          Create Property
+                          {{ t("dashboard.content_area.create_property") }}
                         </UButton>
                       </div>
                     </div>
@@ -136,7 +137,9 @@
           </p>
         </div>
       </div>
-      <UModal v-model:open="isEditModalOpen" class="max-w-2xl" title="Edit Property">
+      <UModal v-model:open="isEditModalOpen" class="max-w-2xl" 
+        :title="t('dashboard.content_area.edit_property')"
+      >
         <template #body>
             <PropertyForm v-model="formData.property" />
         </template>
@@ -151,14 +154,14 @@
             </div>
 
             <h2 class="mt-4 text-xl font-semibold text-gray-900">
-              Delete this property?
+              {{t("dashboard.content_area.delete_property")}}
             </h2>
 
             <p class="mt-2 text-sm text-gray-500">
-              You're about to permanently remove property
+              {{t("dashboard.content_area.delete_property_desc1")}}
               <span class="font-medium text-gray-800"
                 >#{{ selectedPropertyId }}</span
-              >. This action cannot be undone.
+              >{{t("dashboard.content_area.delete_property_desc2")}}
             </p>
 
             <div class="mt-6 flex gap-2 sm:flex-row sm:justify-center">
@@ -167,11 +170,11 @@
                 @click="isDeleteModalOpen = false"
                 size="md"
               >
-                Cancel
+                {{t("dashboard.content_area.cancel_btn")}}
               </UButton>
 
               <UButton color="error" icon="i-lucide-trash" size="md">
-                Delete
+                {{t("dashboard.content_area.delete_btn")}}
               </UButton>
             </div>
           </div>
