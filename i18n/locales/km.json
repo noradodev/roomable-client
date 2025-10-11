@@ -28,7 +28,6 @@
 
       "profile" : "ប្រូហ្វាល់",
       "billing" : "វិក្កយបត្រ"
-
     },
     "content_area" : {  
       "total_rooms" : "បន្ទប់សរុប",
@@ -50,6 +49,7 @@
       "property_info" : "ព័ត៌មានអគារ",
       "room_setup" : "រៀបចំបន្ទប់",
       "review_finish" : "ពិនិត្យ និងបញ្ចប់",
+      "review_desc" : "សូមប្រាកដថាគ្រប់យ៉ាងមើលទៅល្អហើយ មុនពេលអ្នកបោះផ្សាយអគារនេះ។",
       
       "property_info_desc" : "បញ្ចូលឈ្មោះអគារ អាសយដ្ឋាន និងព័ត៌មានផ្សេងៗ",
       "room_setup_desc" : "បន្ថែម និងកំណត់ការរៀបចំបន្ទប់សម្រាប់អគារនេះ​ ការកំណត់អាចផ្អែកទៅលើផែនការរបស់អ្នក",
@@ -60,6 +60,7 @@
       "property_city" : "ទីក្រុង / ខេត្ត",
       "property_description" : "ការពិពណ៌នា",
       "property_img" : "រូបភាពអគារ",
+      "property_details" : "ព័ត៌មានលម្អិតអគារ",
 
       "property_name_desc" : "ឧ. Sunrise Apartment",
       "property_address_desc" : "ផ្លូវ លេខ…",
@@ -68,12 +69,19 @@
       "property_img_label" : "ទម្លាក់រូបភាពនៅទីនេះ",
       "property_img_desc" : "ឯកសារ PNG, JPG, JPEG ឬ WebP (អតិបរមា 5MB)",
 
+      "delete_property" : "លុបអគារនេះ?",
+      "delete_property_desc1" : "អ្នកកំពុងតែលុបអគារនេះជាអចិន្ត្រៃយ៍",
+      "delete_property_desc2" : ". សកម្មភាពនេះមិនអាចត្រឡប់ក្រោយវិញបានទេ។",
+      "create_property" : "បង្កើតអគារថ្មី",
+      "edit_property" : "កែប្រែអគារ",
+
       "floor_room" : "ជាន់ និងបន្ទប់",
       "no_floor" : "មិនទាន់មានជាន់ទេ។ ចុច \"បន្ថែមជាន់\" ដើម្បីចាប់ផ្តើម។",
       "room" : "បន្ទប់",
       "no_room" : "មិនទាន់មានបន្ទប់ទេ",
       "add_floor" : "បន្ថែមជាន់",
       "add_room" : "បន្ថែមបន្ទប់",
+      "view_rooms" : "មើលបន្ទប់",
 
       "floor_name": "ឈ្មោះជាន់",
       "floor_number": "លេខេជាន់",
@@ -84,11 +92,11 @@
 
       "next_btn" : "បន្ទាប់",
       "back_btn" : "ថយក្រោយ",
-
+      "cancel_btn" : "បោះបង់",
+      "delete_btn" : "លុប",
+      "edit_btn" : "កែប្រែ",
       
       "maintenance-req" : "ការស្នើរសំុជួសជុលថ្មីៗ"
-
-
     }
   },
   "validation_message" : {
@@ -110,6 +118,7 @@
     "room_number_required": "សូមបញ្ចូលលេខបន្ទប់",
     "room_type_required": "សូមជ្រើសប្រភេទបន្ទប់",
     "price_required": "សូមបញ្ចូលតម្លៃ",
+
     "floor_name_required": "សូមបញ្ចូលឈ្មោះជាន់",
     "floor_number_required": "សូមបញ្ចូលលេខជាន់",
     "floor_min_one_room": "ជាន់នីមួយៗត្រូវមានបន្ទប់យ៉ាងហោចណាស់មួយបន្ទប់",
