@@ -2,7 +2,7 @@
   <UDashboardPanel>
     <template #header>
       <UDashboardNavbar
-        title="Room Management"
+        :title= "t('dashboard.content_area.room_management')"
         toggle-side="right"
         :toggle="{
           color: 'primary',
@@ -18,7 +18,7 @@
         <div class="p-2 flex text-lg">
           <ULink to="/properties" class="flex space-x-2 items-center"
             ><UIcon name="i-lucide-arrow-left" />
-            <p>Back</p></ULink
+            <p>{{t("dashboard.content_area.back_btn")}}</p></ULink
           >
         </div>
         <div class="property-info">
@@ -28,33 +28,33 @@
             <div class="flex items-center justify-between">
               <h3 class="text-lg font-semibold flex items-center gap-2">
                 <UIcon name="i-lucide-building-2" class="text-primary size-5" />
-                Property Details
+                {{t("dashboard.content_area.property_details")}}
               </h3>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <p class="text-gray-500 text-sm">Name</p>
+                <p class="text-gray-500 text-sm">{{t("dashboard.content_area.property_name")}}</p>
                 <p class="font-medium text-base">
                   {{ property?.name || "—" }}
                 </p>
               </div>
               <div>
-                <p class="text-gray-500 text-sm">City</p>
+                <p class="text-gray-500 text-sm">{{t("dashboard.content_area.property_name")}}</p>
                 <p class="font-medium text-base">
                   {{ property.city || "—" }}
                 </p>
               </div>
               <div>
-                <p class="text-gray-500 text-sm">Address</p>
+                <p class="text-gray-500 text-sm">{{t("dashboard.content_area.property_address")}}</p>
                 <p class="font-medium text-base">
                   {{ property?.location || "—" }}
                 </p>
               </div>
               <div>
-                <p class="text-gray-500 text-sm">Description</p>
+                <p class="text-gray-500 text-sm">{{t("dashboard.content_area.property_description")}}</p>
                 <p class="font-medium text-base line-clamp-2">
-                  {{ property.description || "No description provided." }}
+                  {{ property.description || t("dashboard.content_area.no_desc") }}
                 </p>
               </div>
             </div>
@@ -92,10 +92,10 @@
                   @click="handleRoomClick(room)"
                 >
                   <div class="font-semibold text-lg">
-                    Room {{ room.number }}
+                    {{t("dashboard.content_area.room_plc")}} {{ room.number }}
                   </div>
                   <div class="text-sm text-gray-600">{{ room.type }}</div>
-                  <div class="mt-1 font-medium">${{ room.price }}/mo</div>
+                  <div class="mt-1 font-medium">${{ room.price }}{{t("dashboard.content_area.price_per_month")}}</div>
                   <div
                     class="mt-2 inline-block text-xs px-2 py-1 rounded-full"
                     :class="{
@@ -127,6 +127,7 @@ import type { TabsItem } from "@nuxt/ui";
 const route = useRoute();
 const router = useRouter();
 
+const { t } = useI18n();
 const uuid = route.params.uuid;
 const isRoomOpen = ref(false);
 const roomToUpdate = ref(<Room>{});

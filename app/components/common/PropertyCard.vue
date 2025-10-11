@@ -11,7 +11,7 @@
     >
       <div class="name-loc">
         <p class="font-bold line-clamp-2">
-          {{ location }}
+          {{ location }}  
         </p>
       </div>
       <div class="props-status">
@@ -25,7 +25,6 @@
         </UBadge>
       </div>
     </div>
-
     <div
       class="add-info bg-slate-50 p-4 pt-2 pb-3 rounded-b-2xl border-t-2 border-t-slate-100"
     >

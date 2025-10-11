@@ -90,6 +90,9 @@
       "room_plc" : "Room No: ",
       "room_type" : "Type",
       "room_price" : "Price",
+      "price_per_month" : "/month",
+      "room_management" : "Room Management",
+      "no_desc" : "No description provided.",
 
       "next_btn" : "Next",
       "back_btn" : "Back",

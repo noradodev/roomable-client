@@ -140,7 +140,7 @@ const items = computed<NavigationMenuItem[]>(() => [
                     >
                   </div>
                   <div class="text-start">
-                    <span class="p-0 m-0 text-xs">+85511899276</span>
+                    <span class="p-0 m-0 text-xs">+855123456789</span>
                   </div>
                 </div>
               </div>

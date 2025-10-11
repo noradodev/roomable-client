@@ -89,6 +89,9 @@
       "room_plc" : "បន្ទប់​ លេខ #",
       "room_type" : "ប្រភេទបន្ទប់​",
       "room_price" : "តម្លៃ",
+      "price_per_month" : "/ខែ",
+      "room_management" : "ការគ្រប់គ្រងបន្ទប់",
+      "no_desc" : "មិនមានការពិពណ៌នាទេ.",
 
       "next_btn" : "បន្ទាប់",
       "back_btn" : "ថយក្រោយ",
