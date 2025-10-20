@@ -11,7 +11,9 @@
             </h1>
             <div class="flex space-x-1">
               <p>{{ $t("auth_page.already_have_an_account") }}</p>
-              <ULink to="/login" class="font-bold text-primary">{{$t("auth_page.login")}}</ULink>
+              <ULink to="/login" class="font-bold text-primary">{{
+                $t("auth_page.login")
+              }}</ULink>
             </div>
           </div>
           <div class="space-y-4">
@@ -21,7 +23,7 @@
               class="w-full"
               required
             >
-              <UInput v-model="state.full_name" class="w-full" size="xl" />
+              <UInput v-model="state.name" class="w-full" size="xl" />
             </UFormField>
             <UFormField
               :label="$t('auth_page.email')"
@@ -78,9 +80,9 @@
             </UFormField>
           </div>
 
-          <UButton size="xl" type="submit" class="w-full justify-center"
-            >{{ $t('auth_page.register') }}</UButton
-          >
+          <UButton size="xl" type="submit" class="w-full justify-center" :loading="loading">{{
+            $t("auth_page.register")
+          }}</UButton>
         </div>
       </UForm>
     </div>
@@ -100,9 +102,11 @@
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 const { t } = useI18n();
+const { signUp } = useAuth();
+const loading = ref(false);
 const schema = z
   .object({
-    full_name: z.string($t("validation_message.full_name")),
+    name: z.string($t("validation_message.full_name")),
     email: z.email($t("validation_message.email_invalid")),
     password: z
       .string($t("validation_message.password_required"))
@@ -123,7 +127,7 @@ const schema = z
 type Schema = z.output<typeof schema>;
 
 const state = reactive<Partial<Schema>>({
-  full_name: undefined,
+  name: undefined,
   email: undefined,
   password: undefined,
   confirm_password: undefined,
@@ -132,11 +136,28 @@ const state = reactive<Partial<Schema>>({
 
 const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
-  console.log(event.data);
+  try {
+    loading.value = true;
+    await signUp(event.data, { callbackUrl: "/dashboard" });
+    toast.add({
+      title: "Success",
+      description: "Account created successfully!",
+      color: "success",
+    });
+  } catch (error: any) {
+    toast.add({
+      title: "Error",
+      description: error?.data?.message || "Unknown unexpected error!",
+      color: "error",
+    });
+  } finally {
+    loading.value = false;
+  }
 }
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true, 
+    navigateAuthenticatedTo: '/dashboard', 
+  }
+})
 </script>

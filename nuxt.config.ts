@@ -3,7 +3,13 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@nuxtjs/i18n", '@nuxt/image'],
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/eslint",
+    "@nuxtjs/i18n",
+    "@nuxt/image",
+    "@sidebase/nuxt-auth",
+  ],
   css: ["~/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
   colorMode: {
@@ -26,11 +32,39 @@ export default defineNuxtConfig({
         code: "en",
         name: "English",
       },
-      
     ],
   },
+  runtimeConfig: {
+    baseURL: process.env.API_SERVER_ENDPOINT,
+    public: {
+      apiBase: process.env.API_SERVER_ENDPOINT,
+    },
+  },
+  auth: {
+    isEnabled: true,
+    baseURL: process.env.API_SERVER_ENDPOINT,
+    globalAppMiddleware: true,
+    provider: {
+      type: "local",
+      endpoints: {
+        signIn: { path: "/login", method: "post" },
+        signOut: { path: "/logout", method: "post" },
+        signUp: { path: "/register", method: "post" },
+        getSession: { path: "/me", method: "get" },
+      },
+      token: {
+        signInResponseTokenPointer: '/data/token',
+        headerName: 'Authorization',
+        type: 'Bearer',
+      },
+      session: {
+      dataResponsePointer: '/data/curr_user', 
+    },
+    },
+  },
   image: {
-    format: ['webp'],
-    domains: ['*']
-  }
+    format: ["webp"],
+    domains: ["*"],
+  },
+  plugins: ["~/plugins/axios.client.ts"],
 });

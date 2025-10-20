@@ -3,34 +3,36 @@ import type { NavigationMenuItem, DropdownMenuItem } from "@nuxt/ui";
 import { en, km } from "@nuxt/ui/locale";
 const { locale, setLocale, t } = useI18n({ useScope: "global" });
 const localePath = useLocalePath();
+const { data } = useAuth();
+
 const profileItems = ref<DropdownMenuItem[][]>([
   [
     {
-      label: 'Rado No',
+      label: data?.value?.name ?? "-",
       avatar: {
-        src: 'https://github.com/benjamincanac.png'
+        src: "https://github.com/benjamincanac.png",
       },
-      type: 'label'
-    }
+      type: "label",
+    },
   ],
   [
     {
       label: t("dashboard.sidebar.profile"),
-      icon: 'i-lucide-user'
+      icon: "i-lucide-user",
     },
     {
       label: t("dashboard.sidebar.billing"),
-      icon: 'i-lucide-credit-card'
+      icon: "i-lucide-credit-card",
     },
   ],
   [
     {
       label: t("dashboard.sidebar.logout"),
-      icon: 'i-lucide-log-out',
-      kbds: ['shift', 'meta', 'q']
-    }
-  ]
-])
+      icon: "i-lucide-log-out",
+      kbds: ["shift", "meta", "q"],
+    },
+  ],
+]);
 const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.menu"),
@@ -44,6 +46,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.payments"),
     icon: "i-lucide-credit-card",
+    to: localePath("/payments"),
   },
   {
     label: t("dashboard.sidebar.maintenance"),
@@ -103,10 +106,10 @@ const items = computed<NavigationMenuItem[]>(() => [
       <template #default="{ collapsed }">
         <USeparator orientation="horizontal" />
         <UDropdownMenu
-        :content="{
-          side: 'right',
-          align: 'start'
-        }"
+          :content="{
+            side: 'right',
+            align: 'start',
+          }"
           :items="profileItems"
           :ui="{
             content: 'w-48',
@@ -130,7 +133,7 @@ const items = computed<NavigationMenuItem[]>(() => [
                 <div class="flex justify-start flex-col space-x-2">
                   <div class="flex justify-center items-center">
                     <h5 class="text-base text-start p-0 m-0 text-ellipsis">
-                      {{ collapsed ? undefined : "Rado No" }}
+                      {{ collapsed ? undefined : data?.name }}
                     </h5>
                     <UBadge
                       class="text-xs text-start ml-2"
@@ -140,7 +143,7 @@ const items = computed<NavigationMenuItem[]>(() => [
                     >
                   </div>
                   <div class="text-start">
-                    <span class="p-0 m-0 text-xs">+85511899276</span>
+                    <span class="p-0 m-0 text-xs">{{ data?.profile.phone ?? "N/A" }}</span>
                   </div>
                 </div>
               </div>
