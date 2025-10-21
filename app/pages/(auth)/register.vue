@@ -101,7 +101,9 @@
 <script setup lang="ts">
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
+import { useLocalePath } from "#imports";
 const { t } = useI18n();
+const localePath = useLocalePath();
 const { signUp } = useAuth();
 const loading = ref(false);
 const schema = z
@@ -138,7 +140,7 @@ const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     loading.value = true;
-    await signUp(event.data, { callbackUrl: "/dashboard" });
+    await signUp(event.data, { callbackUrl: localePath("/dashboard") });
     toast.add({
       title: "Success",
       description: "Account created successfully!",
@@ -157,7 +159,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 definePageMeta({
   auth: {
     unauthenticatedOnly: true, 
-    navigateAuthenticatedTo: '/dashboard', 
+    navigateAuthenticatedTo: "/dashboard", 
   }
 })
 </script>

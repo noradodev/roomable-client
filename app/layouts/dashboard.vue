@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import type { NavigationMenuItem, DropdownMenuItem } from "@nuxt/ui";
+import { useProfileImage } from "@/composables/useProfilePicture";
 import { en, km } from "@nuxt/ui/locale";
 const { locale, setLocale, t } = useI18n({ useScope: "global" });
 const localePath = useLocalePath();
+const {getProfileUrl} = useProfileImage();
 const { data } = useAuth();
 
+const profileUrl = computed(()=> {
+  return getProfileUrl(data.value?.profile.profile_image)
+})
 const profileItems = ref<DropdownMenuItem[][]>([
   [
     {
       label: data?.value?.name ?? "-",
       avatar: {
-        src: "https://github.com/benjamincanac.png",
+        src: profileUrl.value,
       },
       type: "label",
     },
@@ -19,10 +24,13 @@ const profileItems = ref<DropdownMenuItem[][]>([
     {
       label: t("dashboard.sidebar.profile"),
       icon: "i-lucide-user",
+      to: localePath("/account/settings?tab=profile")
     },
     {
       label: t("dashboard.sidebar.billing"),
       icon: "i-lucide-credit-card",
+      to: localePath("/account/settings?tab=plans")
+
     },
   ],
   [
@@ -76,6 +84,8 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.settings"),
     icon: "i-lucide-settings",
+      to: localePath("/account/settings")
+
   },
   {
     label: t("dashboard.sidebar.support"),
@@ -125,7 +135,7 @@ const items = computed<NavigationMenuItem[]>(() => [
             <div class="space-x-2 flex justify-between items-center">
               <div>
                 <img
-                  src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Luis"
+                  :src="profileUrl"
                   class="w-10 h-10 rounded-xl"
                 />
               </div>

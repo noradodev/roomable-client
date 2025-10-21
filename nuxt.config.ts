@@ -9,6 +9,8 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxt/image",
     "@sidebase/nuxt-auth",
+    "@pinia/nuxt",
+    "nuxt-qrcode"
   ],
   css: ["~/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
@@ -38,6 +40,7 @@ export default defineNuxtConfig({
     baseURL: process.env.API_SERVER_ENDPOINT,
     public: {
       apiBase: process.env.API_SERVER_ENDPOINT,
+      mediaUrl: process.env.MEDIA_URL
     },
   },
   auth: {

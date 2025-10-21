@@ -11,7 +11,7 @@
             </h1>
             <div class="flex space-x-1">
               <p>{{ $t("auth_page.already_have_an_account") }}</p>
-              <ULink to="/login" class="font-bold text-primary">{{
+              <ULink to="/register" class="font-bold text-primary">{{
                 $t("auth_page.register")
               }}</ULink>
             </div>
@@ -42,7 +42,7 @@
           </div>
        
 
-          <UButton size="xl" type="submit" class="w-full justify-center">{{
+          <UButton size="xl" type="submit" class="w-full justify-center" :loading="loading">{{
             $t("auth_page.login")
           }}</UButton>
         </div>
@@ -62,8 +62,10 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
+import { useLocalePath } from "#imports";
 import type { FormSubmitEvent } from "@nuxt/ui";
 const { t } = useI18n();
+const localePath = useLocalePath();
 const loading = ref(false);
 const { signIn } = useAuth();
 const schema = z
@@ -87,7 +89,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     loading.value = true;
     await signIn(event.data, { 
-    callbackUrl: '/dashboard' 
+    callbackUrl: localePath("/dashboard")
 });
     toast.add({
       title: "Success",
@@ -109,7 +111,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 definePageMeta({
   auth: {
     unauthenticatedOnly: true, 
-    navigateAuthenticatedTo: '/dashboard', 
+    navigateAuthenticatedTo: "/dashboard" , 
   }
 })
 </script>

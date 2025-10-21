@@ -132,7 +132,7 @@ definePageMeta({
           To enable automatic rent collection from tenants, please connect your
           bank or payment provider.
         </p>
-        <UButton color="primary" class="rounded-full px-6">
+        <UButton color="primary" class="rounded-full px-6" :to="$localePath('/payments/method')">
           Set up payment
         </UButton>
       </div>
