@@ -23,6 +23,7 @@ export const propertySchema = (t: (key: string, param?: Record<string, any>) => 
       }),
     z.undefined(),
   ]),
+  
 });
 
 export type PropertySchema = z.output<ReturnType<typeof propertySchema>>;

@@ -72,6 +72,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("dashboard.sidebar.tenants"),
     icon: "i-lucide-book-user",
+    to: localePath("/tenants")
   },
   {
     label: t("dashboard.sidebar.reports"),

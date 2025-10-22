@@ -45,13 +45,13 @@
               class="duration-400 transition-all"
             >
               <UButton
+              v-model:open="isAddOpen"
                 :label="t('dashboard.content_area.add_property')"
                 color="primary"
                 variant="outline"
                 class="ml-2"
                 size="lg"
                 icon="i-lucide-plus"
-                
               />
 
               <template #body>
@@ -66,6 +66,7 @@
                     <PropertyForm
                       v-model="formData.property"
                       @next="!stepper?.next()"
+                      :show-next-button="true"
                     />
                   </template>
 
@@ -92,7 +93,7 @@
                         >
                           {{ t("dashboard.content_area.back_btn") }}
                         </UButton>
-                        <UButton color="primary" @click="submitAll">
+                        <UButton color="primary" @click="handleSubmit" :loading="loading">
                           {{ t("dashboard.content_area.create_property") }}
                         </UButton>
                       </div>
@@ -103,8 +104,48 @@
             </UModal>
           </div>
         </div>
+        <div v-if="loading">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+          >
+            <!-- Room Card Skeletons - Repeat for 8-12 cards -->
+            <div
+              v-for="i in 8"
+              :key="i"
+              class="bg-white rounded-xl border border-gray-200 p-4"
+            >
+              <div class="space-y-3">
+                <div class="flex justify-end">
+                  <USkeleton class="w-3 h-3 rounded-full" />
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <USkeleton class="w-4 h-4 rounded" />
+                  <USkeleton class="w-16 h-5 rounded" />
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <USkeleton class="w-4 h-4 rounded" />
+                  <USkeleton class="w-20 h-4 rounded" />
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <USkeleton class="w-4 h-4 rounded" />
+                  <USkeleton class="w-24 h-5 rounded" />
+                </div>
+
+                <USkeleton class="w-16 h-6 rounded-full" />
+
+                <div class="flex space-x-2 pt-2">
+                  <USkeleton class="w-8 h-8 rounded-lg" />
+                  <USkeleton class="w-8 h-8 rounded-lg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
-          v-if="properties.length > 0"
+          v-else-if="allProperties.length > 0"
           class="property-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
           <!-- :status-color="property.statusColor as 'success' | 'error'" -->
@@ -112,11 +153,11 @@
             v-for="property in properties"
             :key="property.id"
             :uuid="property.id"
-            :image="property.image"
-            :location="property.location"
-            :status-text="property.statusText"
-            :rooms-remaining="property.roomsRemaining"
-            :total-rooms="property.totalRooms"
+            :image="property.image_url"
+            :location="property.address + ' , ' + property.city"
+            :status-text="property.is_active"
+            :rooms-remaining="property.renting_rooms"
+            :total-rooms="property.total_rooms"
             @edit="() => handleEdit(property.id)"
             @delete="() => handleDelete(property.id)"
           />
@@ -137,13 +178,26 @@
           </p>
         </div>
       </div>
-      <UModal v-model:open="isEditModalOpen" class="max-w-2xl" 
-        :title="t('dashboard.content_area.edit_property')"
-      >
-        <template #body>
-            <PropertyForm v-model="formData.property" />
-        </template>
-      </UModal>
+     <UModal
+  v-model:open="isEditModalOpen"
+  class="max-w-2xl"
+  :title="t('dashboard.content_area.edit_property')"
+>
+  <template #body>
+    <PropertyForm v-model="formData.property" :show-next-button="false" />
+  </template>
+
+  <template #footer>
+    <div class="flex justify-end space-x-2">
+      <UButton variant="ghost" @click="isEditModalOpen = false">
+        {{ t("dashboard.content_area.cancel_btn") }}
+      </UButton>
+      <UButton color="primary" @click="handleUpdateProperty">
+        {{ t("dashboard.content_area.save_btn") }}
+      </UButton>
+    </div>
+  </template>
+</UModal>
       <UModal v-model:open="isDeleteModalOpen" class="max-w-md bg-white">
         <template #content>
           <div class="p-6 text-center">
@@ -154,14 +208,14 @@
             </div>
 
             <h2 class="mt-4 text-xl font-semibold text-gray-900">
-              {{t("dashboard.content_area.delete_property")}}
+              {{ t("dashboard.content_area.delete_property") }}
             </h2>
 
             <p class="mt-2 text-sm text-gray-500">
-              {{t("dashboard.content_area.delete_property_desc1")}}
+              {{ t("dashboard.content_area.delete_property_desc1") }}
               <span class="font-medium text-gray-800"
                 >#{{ selectedPropertyId }}</span
-              >{{t("dashboard.content_area.delete_property_desc2")}}
+              >{{ t("dashboard.content_area.delete_property_desc2") }}
             </p>
 
             <div class="mt-6 flex gap-2 sm:flex-row sm:justify-center">
@@ -170,11 +224,17 @@
                 @click="isDeleteModalOpen = false"
                 size="md"
               >
-                {{t("dashboard.content_area.cancel_btn")}}
+                {{ t("dashboard.content_area.cancel_btn") }}
               </UButton>
 
-              <UButton color="error" icon="i-lucide-trash" size="md">
-                {{t("dashboard.content_area.delete_btn")}}
+              <UButton
+                color="error"
+                icon="i-lucide-trash"
+                size="md"
+                @click="deleteProperty"
+                :loading="loading"
+              >
+                {{ t("dashboard.content_area.delete_btn") }}
               </UButton>
             </div>
           </div>
@@ -191,48 +251,21 @@ import PropertyForm from "~/components/form/PropertyForm.vue";
 import type { PropertySchema } from "~/schemas/property.schema";
 import type { RoomSetupSchema } from "~/schemas/room.schema";
 
+const toast = useToast();
 const currentStep = ref(0);
 const items = ref([
   t("dashboard.content_area.latest_property"),
   t("dashboard.content_area.all_properties"),
 ]);
 const value = ref(items.value[0]);
+const isAddOpen = ref(false);
 const isEditModalOpen = ref(false);
 const isDeleteModalOpen = ref(false);
-const selectedPropertyId = ref<number | null>(null);
+const selectedPropertyId = ref<string | null>(null);
+const imageFile = ref<File | null>(null);
+const store = usePropertyStore();
+const { properties, allProperties, loading } = storeToRefs(store);
 
-const properties = ref([
-  {
-    id: 1,
-    image:
-      "https://filesblog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg",
-    location: "សៀមរាប Sla Kram, Krong Siem Reab, Siem Reap",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 9,
-    totalRooms: 10,
-  },
-  {
-    id: 2,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWs8CARoRSpApdMm66SPTLyX6syevmiiiUBg&s",
-    location: "Phnom Penh, Toul Kork, Cambodia",
-    statusText: "Active",
-    statusColor: "success",
-    roomsRemaining: 4,
-    totalRooms: 8,
-  },
-  {
-    id: 3,
-    image:
-      "https://condostrategis.ca/wp-content/uploads/2023/08/condo-vs-apartment-difference.jpg",
-    location: "Battambang, Svay Paosgdf",
-    statusText: "Inactive",
-    statusColor: "error",
-    roomsRemaining: 0,
-    totalRooms: 6,
-  },
-]);
 const createPropertiesStepper = ref(<StepperItem[]>[
   {
     title: t("dashboard.content_area.property_info"),
@@ -268,19 +301,135 @@ const formData = reactive<{
     floors: [],
   },
 });
-function submitAll() {
-  console.log(" Final data submitted:", formData);
-}
-function handleEdit(propertyId: number) {
+function handleEdit(propertyId: string) {
+  const property = allProperties.value.find(p => p.id === propertyId);
+  if (!property) return;
+
+  formData.property = {
+    name: property.name,
+    address: property.address,
+    city: property.city,
+    description: property.description ?? "",
+    props_image: undefined, 
+  };
+
   selectedPropertyId.value = propertyId;
   isEditModalOpen.value = true;
 }
-
-function handleDelete(propertyId: number) {
+function handleDelete(propertyId: string) {
   selectedPropertyId.value = propertyId;
   isDeleteModalOpen.value = true;
 }
+async function handleSubmit() {
+  try {
+    const formDataToSend = new FormData();
+
+    formDataToSend.append("property[name]", formData.property.name);
+    formDataToSend.append("property[address]", formData.property.address);
+    formDataToSend.append("property[city]", formData.property.city);
+    formDataToSend.append("property[description]", formData.property.description ?? "");
+
+    if (formData.property.props_image) {
+      formDataToSend.append(
+        "props_image",
+        formData.property.props_image as File
+      );
+    }
+
+    formData.roomSetup.floors.forEach((floor, fIndex) => {
+      formDataToSend.append(`roomSetup[floors][${fIndex}][name]`, floor.name);
+      formDataToSend.append(`roomSetup[floors][${fIndex}][number]`, String(floor.number));
+
+      floor.rooms.forEach((room, rIndex) => {
+        formDataToSend.append(`roomSetup[floors][${fIndex}][rooms][${rIndex}][roomNumber]`, room.roomNumber);
+        formDataToSend.append(`roomSetup[floors][${fIndex}][rooms][${rIndex}][type]`, room.type);
+        formDataToSend.append(`roomSetup[floors][${fIndex}][rooms][${rIndex}][price]`, String(room.price));
+      });
+    });
+
+    await store.createProperty(formDataToSend);
+
+    toast.add({
+      title: "Success",
+      description: "Property created successfully",
+      color: "success",
+    });
+    isAddOpen.value = false;
+    store.fetchProperties();
+  } catch (error: any) {
+    toast.add({
+      title: "Error",
+      description: error.data ?? "Unknown error",
+      color: "error",
+    });
+    console.error("Error creating property:", error);
+  }
+}
+async function handleUpdateProperty() {
+  if (!selectedPropertyId.value) return;
+
+  try {
+    const formDataToSend = new FormData();
+
+    formDataToSend.append("name", formData.property.name);
+    formDataToSend.append("address", formData.property.address);
+    formDataToSend.append("city", formData.property.city);
+    formDataToSend.append(
+      "description",
+      formData.property.description ?? ""
+    );
+
+    if (formData.property.props_image) {
+      formDataToSend.append(
+        "props_image",
+        formData.property.props_image as File
+      );
+    }
+    formDataToSend.append("_method", "PUT");
+    await store.updateProperty(selectedPropertyId.value, formDataToSend);
+
+    toast.add({
+      title: "Success",
+      description: "Property updated successfully",
+      color: "success",
+    });
+
+    isEditModalOpen.value = false;
+    store.fetchProperties();
+  } catch (error: any) {
+    toast.add({
+      title: "Error",
+      description: error.data ?? "Unknown error",
+      color: "error",
+    });
+    console.error("Error updating property:", error);
+  }
+}
+
+
+async function deleteProperty() {
+  if (!selectedPropertyId.value) return;
+  try {
+    store.deleteProperty(selectedPropertyId.value);
+    toast.add({
+      title: "Success",
+      description: "Delete properties successfully!",
+      color: "success",
+    });
+    isDeleteModalOpen.value = false;
+    store.fetchProperties();
+  } catch (error: any) {
+    toast.add({
+      title: "Error",
+      description: error.data,
+      color: "error",
+    });
+  }
+}
 definePageMeta({
   layout: "dashboard",
+});
+onMounted(async () => {
+  await store.fetchProperties();
 });
 </script>

@@ -2,7 +2,7 @@
   <div class="card rounded-2xl relative shadow flex flex-col min-h-[320px]">
     <div class="props-img">
       <div class="image-wrapper overflow-hidden rounded-t-2xl h-52">
-        <NuxtImg :src="image" class="object-cover h-full w-full" />
+        <NuxtImg :src="imageUrl ?? 'https://placehold.co/600x400'" class="object-cover h-full w-full" />
       </div>
     </div>
 
@@ -21,7 +21,7 @@
           :color="statusColor"
           class="bg-white p-1 px-2"
         >
-          {{ statusText }}
+          {{ statusText ? "Active" : "Inactive" }}
         </UBadge>
       </div>
     </div>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="progress flex-1">
-          <UProgress :model-value="roomsRemaining" :max="10" />
+          <UProgress :model-value="roomsRemaining" :max="totalRooms" />
         </div>
       </div>
     </div>
@@ -81,12 +81,13 @@ import type { DropdownMenuItem } from "@nuxt/ui";
 
 const { t } = useI18n({ useScope: "global" });
 const localePath = useLocalePath();
+const config = useRuntimeConfig();
 
 interface PropertyCardProps {
   uuid: number | string
-  image: string;
+  image: string | null;
   location: string;
-  statusText?: string;
+  statusText:boolean | number;
   statusColor?: "success" | "error";
   roomsRemaining: number;
   totalRooms: number;
@@ -98,7 +99,7 @@ const progressValue = ref(props.roomsRemaining);
 const {
   image,
   location,
-  statusText = "Active",
+  statusText = false,
   statusColor = "success",
   roomsRemaining,
   totalRooms,
@@ -135,7 +136,8 @@ const items: DropdownMenuItem[][] = [
     },
   ],
 ];
-
+const imageUrl = computed(()=> config.public.mediaUrl + '/' + image)
+console.log(imageUrl.value)
 function onSelect(item: { label: string }) {
   if (item.label === "Edit Property") emit("edit");
   if (item.label === "Delete This Property") emit("delete");

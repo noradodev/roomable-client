@@ -64,6 +64,7 @@
       <UFileUpload
         v-model="state.props_image"
         icon="i-lucide-image"
+        :multiple="false"
         :label="t('dashboard.content_area.property_img_label')"
         :description="t('dashboard.content_area.property_img_desc')"
         
@@ -75,7 +76,7 @@
     </UFormField>
 
     <div class="flex justify-end pt-4">
-      <UButton type="submit" color="primary"  trailing-icon="i-lucide-arrow-right" size="lg">{{ t("dashboard.content_area.next_btn") }}</UButton>
+      <UButton type="submit" color="primary"  v-if="showNextButton" trailing-icon="i-lucide-arrow-right" size="lg">{{ t("dashboard.content_area.next_btn") }}</UButton>
     </div>
   </UForm>
 </template>
@@ -89,6 +90,7 @@ const { t } = useI18n({ useScope: "global" });
 
 const props = defineProps<{
   modelValue?: PropertySchema;
+   showNextButton?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -102,24 +104,23 @@ const state = reactive<PropertySchema>({
   address: props.modelValue?.address ?? "",
   city: props.modelValue?.city ?? "",
   description: props.modelValue?.description ?? "",
-  props_image: props.modelValue?.props_image ?? undefined,
+  props_image: props.modelValue?.props_image ? markRaw(props.modelValue.props_image) : undefined,
 });
 
 const formRef = ref<Form<PropertySchema> | null>(null);
 
 watch(
   () => state,
-  (val) => {
-    emit("update:modelValue", JSON.parse(JSON.stringify(val)));
-  },
+  (val) => emit("update:modelValue", val),
   { deep: true }
-);
+)
+
 
 const handleSubmit = async () => {
   const result = await formRef.value?.validate();
   if (!result) return;
 
-  emit("update:modelValue", JSON.parse(JSON.stringify(state)));
+ emit("update:modelValue", state)
   emit("next");
 };
 </script>
