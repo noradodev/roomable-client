@@ -1,9 +1,23 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { boolean } from "zod";
-import type { PaymentMethod } from "~/types/payment";
+import type { PaymentMethod, PaymentItem } from "~/types/payment";
+import type { PaginationMeta } from "~/types/shared";
+export interface StructuredData {
+  p: PaymentItem[];
+  pagination: PaginationMeta;
+}
+
+export interface ApiResponse {
+  success: boolean;
+  status_code: number;
+  message: string;
+  data: StructuredData;
+}
 
 export const useLandlordPaymentStore = defineStore("ldPayment", () => {
+    const payments = ref<PaymentItem[]>([]);
+    const pagination = ref<PaginationMeta | null>(null);
   const current = reactive({
     cash: {
       enabled: true,
@@ -12,7 +26,7 @@ export const useLandlordPaymentStore = defineStore("ldPayment", () => {
     },
     qr: {
       enabled: false,
-      name: "ABA QR code",
+      name: "",
       qr_image: null as File | null | string,
       instructions: "",
     },
@@ -23,6 +37,8 @@ export const useLandlordPaymentStore = defineStore("ldPayment", () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
   const previewUrl = ref<string | null>(null);
+
+  const allPayments = computed(()=> payments.value);
 
   const fetchPaymentMethods = async () => {
     loading.value = true;
@@ -106,7 +122,20 @@ export const useLandlordPaymentStore = defineStore("ldPayment", () => {
       loading.value = false;
     }
   };
-
+  const  fetchListPayments = async () => {
+    loading.value = true
+    try {
+      const res = await api.get("/payments")
+      console.log(res.data.p)
+       payments.value = res.data.p;
+      pagination.value = res.data.pagination;
+      return res
+    } catch (error) {
+      throw error;
+    } finally {
+      loading.value = false;
+    }
+  }
   const getByType = (type: string) =>
     paymentMethods.value.find((m) => m.type === type);
 
@@ -116,8 +145,12 @@ export const useLandlordPaymentStore = defineStore("ldPayment", () => {
     loading,
     error,
     previewUrl,
+    pagination,
+    payments,
+    allPayments,
     onFileChange,
     fetchPaymentMethods,
+    fetchListPayments,
     savePaymentSettings,
     getByType,
     removeFile,

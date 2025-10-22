@@ -30,3 +30,32 @@ export interface Room {
   status: "available" | "occupied" | "maintenance";
   current_tenant_id?: string | null | undefined;
 }
+export interface PaymentTrendData {
+    month: string;      // Format: 'YYYY-MM'
+    total: number;
+}
+
+export interface DashboardStaticAssets {
+    buildings: number;
+    rooms: number;
+    tenants: number;
+}
+
+export interface DashboardPaymentStats {
+    current_month_key: string;          // Format: 'YYYY-MM'
+    current_month_total: number;
+    last_month_total: number;
+    mom_change_amount: number;
+    mom_change_percentage: number;
+    trend_data: PaymentTrendData[];     // Array of PaymentTrendData
+}
+
+export interface DashboardData {
+    static_assets: DashboardStaticAssets;
+    payments: DashboardPaymentStats;
+}
+
+export interface DashboardApiResponse {
+    status: 'success' | 'error'; // Assuming status can also be 'error'
+    data: DashboardData;
+}

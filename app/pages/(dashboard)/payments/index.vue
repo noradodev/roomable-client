@@ -1,108 +1,105 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
+import { getPaginationRowModel, type Row } from "@tanstack/vue-table";
 import type { TableColumn } from "@nuxt/ui";
+import type { PaymentItem } from "~/types/payment.d";
 
+const { data } = useAuth();
+
+const store = useLandlordPaymentStore();
+const {allPayments, loading, pagination} = storeToRefs(store);
 const UBadge = resolveComponent("UBadge");
+const UDropdownMenu = resolveComponent("UDropdownMenu");
+const UButton = resolveComponent("UButton");
 
-type Payment = {
-  id: string;
-  date: string;
-  status: "paid" | "failed" | "refunded";
-  email: string;
-  amount: number;
-};
-
-const data = ref<Payment[]>([
-  {
-    id: "4600",
-    date: "2024-03-11T15:30:00",
-    status: "paid",
-    email: "james.anderson@example.com",
-    amount: 594,
-  },
-  {
-    id: "4599",
-    date: "2024-03-11T10:10:00",
-    status: "failed",
-    email: "mia.white@example.com",
-    amount: 276,
-  },
-  {
-    id: "4598",
-    date: "2024-03-11T08:50:00",
-    status: "refunded",
-    email: "william.brown@example.com",
-    amount: 315,
-  },
-  {
-    id: "4597",
-    date: "2024-03-10T19:45:00",
-    status: "paid",
-    email: "emma.davis@example.com",
-    amount: 529,
-  },
-  {
-    id: "4596",
-    date: "2024-03-10T15:55:00",
-    status: "paid",
-    email: "ethan.harris@example.com",
-    amount: 639,
-  },
-]);
-
-const columns: TableColumn<Payment>[] = [
-  {
-    accessorKey: "id",
-    header: "#",
-    cell: ({ row }) => `#${row.getValue("id")}`,
-  },
-  {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => {
-      return new Date(row.getValue("date")).toLocaleString("en-US", {
-        day: "numeric",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
+const table = useTemplateRef("table");
+const paginations = ref({
+  pageIndex: pagination.value?.current_page
+    ? pagination.value.current_page - 1
+    : 0,
+  pageSize: pagination.value?.per_page ?? 10,
+});
+const columns: TableColumn<PaymentItem>[] = [
+    {
+        accessorKey: "tenant_name",
+        header: "Tenant Name",
     },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const color = {
-        paid: "success" as const,
-        failed: "error" as const,
-        refunded: "neutral" as const,
-      }[row.getValue("status") as string];
-
-      return h(UBadge, { class: "capitalize", variant: "subtle", color }, () =>
-        row.getValue("status")
-      );
+    {
+        accessorKey: "room_number",
+        header: "Room #",
     },
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "amount",
-    header: () => h("div", { class: "text-right" }, "Amount"),
-    cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue("amount"));
-
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "EUR",
-      }).format(amount);
-
-      return h("div", { class: "text-right font-medium" }, formatted);
+    {
+        accessorKey: "month_years",
+        header: "Month",
     },
-  },
+    {
+        accessorKey: "total_amount",
+        header: "Total Amount",
+        cell: ({ row }) => h(
+            'span',
+            { class: 'font-medium text-primary-600' },
+            `$${row.original.total_amount.toFixed(2)}`
+        ),
+    },
+    {
+        accessorKey: "status",
+        header: "Status",
+    },
+    {
+        accessorKey: "method",
+        header: "Method",
+        cell: ({ row }) => row.original.method ? row.original.method.toUpperCase() : '-',
+    },
+    {
+        accessorKey: "created_at",
+        header: "Claim Date",
+        // Custom cell for date formatting
+        cell: ({ row }) => 
+            row.original.created_at
+            ? new Date(row.original.created_at).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            })
+            : "-",
+    },
+    {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => {
+            const getPaymentRowItems = (row: any) => [
+                [
+                    {
+                        label: 'View Details',
+                        icon: 'i-heroicons-eye',
+                        to: `/payments/view/${row.original.id}`, 
+                    },
+                ],
+            ];
+
+            return h(
+                'div',
+                { class: 'text-right' },
+                h(
+                    UDropdownMenu,
+                    { items: getPaymentRowItems(row) },
+                    () => h(UButton, {
+                        icon: 'i-heroicons-ellipsis-vertical',
+                        color: 'gray',
+                        variant: 'ghost',
+                        class: 'ml-auto',
+                    })
+                )
+            );
+        },
+    },
 ];
+
+onMounted(async()=> {
+  store.fetchListPayments();
+
+})
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -110,20 +107,23 @@ definePageMeta({
 
 <template>
   <UDashboardPanel>
-  <template #header>
+    <template #header>
       <UDashboardNavbar
-      title="Payments"
-      toggle-side="right"
-      :toggle="{
-        color: 'primary',
-        variant: 'soft',
-        class: 'rounded-full',
-      }"
-      class="bg-white"
-    />
-  </template>
+        title="Payments"
+        toggle-side="right"
+        :toggle="{
+          color: 'primary',
+          variant: 'soft',
+          class: 'rounded-full',
+        }"
+        class="bg-white"
+      />
+    </template>
     <template #body>
-      <div class="p-6 flex flex-col items-center text-center space-y-4 h-screen justify-center">
+      <div
+        v-if="!data?.profile.telegram_id"
+        class="p-6 flex flex-col items-center text-center space-y-4 h-screen justify-center"
+      >
         <!-- <img src="/img/empty-payment.svg" class="w-48" alt="" /> -->
         <h2 class="text-lg font-semibold">
           Set up payment to collect rent automatically
@@ -132,9 +132,36 @@ definePageMeta({
           To enable automatic rent collection from tenants, please connect your
           bank or payment provider.
         </p>
-        <UButton color="primary" class="rounded-full px-6" :to="$localePath('/payments/method')">
+        <UButton
+          color="primary"
+          class="rounded-full px-6"
+          :to="$localePath('/payments/method')"
+        >
           Set up payment
         </UButton>
+      </div>
+      <div v-else>
+        <UTable
+          ref="table"
+          v-model:pagination="paginations"
+          :data="allPayments"
+          :loading="loading"
+          :columns="columns"
+          :pagination-options="{
+            getPaginationRowModel: getPaginationRowModel(),
+          }"
+          class="flex-1"
+        />
+        <div class="flex justify-center border-t border-default pt-4">
+          <UPagination
+            :default-page="
+              (table?.tableApi?.getState().pagination.pageIndex || 0) + 1
+            "
+            :items-per-page="table?.tableApi?.getState().pagination.pageSize"
+            :total="table?.tableApi?.getFilteredRowModel().rows.length"
+            @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
+          />
+        </div>
       </div>
     </template>
   </UDashboardPanel>

@@ -108,9 +108,8 @@
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
-            <!-- Room Card Skeletons - Repeat for 8-12 cards -->
             <div
-              v-for="i in 8"
+              v-for="i in 4"
               :key="i"
               class="bg-white rounded-xl border border-gray-200 p-4"
             >

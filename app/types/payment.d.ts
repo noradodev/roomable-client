@@ -22,3 +22,27 @@ export interface PaymentMethod {
   configuration: PaymentConfiguration; 
   qr_image_url: string | null;
 }
+
+
+
+export interface PaymentItem {
+    id: string; 
+    tenant_name: string;
+    room_number: string;
+    
+    amount: number;
+    electricity_cost: number;
+    water_cost: number;
+    total_amount: number;
+
+    status: 'paid' | 'awaiting_confirmation' | 'awaiting_tenant';
+    month_years: string; 
+    method: 'cash' | 'bank' | 'qr' | 'other' | null;
+    note: string | null;
+    rejection_reason: string | null;
+    proof_of_payment_url: string | null;
+
+    created_at: string | null; 
+    paid_at: string | null;   
+    due_date: string | null;   
+}

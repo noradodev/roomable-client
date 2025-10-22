@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import type { Floor, Property, Room } from "@/types/property";
+import {type DashboardApiResponse, type Floor, type Property, type Room } from "@/types/property.d";
 
 export const usePropertyStore = defineStore("property", () => {
   const api = useApi();
   const properties = ref<Property[]>([]);
+  const dashStats = ref<DashboardApiResponse>();
   const property = ref<Property | null>(null);
   const room = reactive<Room>({
     id: "",
@@ -116,6 +117,21 @@ export const usePropertyStore = defineStore("property", () => {
       loading.value = false;
     }
   };
+  const fetchStats = async () => {
+    loading.value = true;
+    try {
+      const res = await api.get("/dashboard/stats");
+      dashStats.value = { ...res};
+      console.log(dashStats.value);
+      return res;
+    } catch (error: any) {
+      throw error;
+    } finally {
+      loading.value = false;
+    }
+  };
+  
+  
 
   return {
     allProperties,
@@ -124,6 +140,7 @@ export const usePropertyStore = defineStore("property", () => {
     loading,
     room,
     tenantList,
+    dashStats,
     fetchProperties,
     fetchProperty,
     deleteProperty,
@@ -131,6 +148,7 @@ export const usePropertyStore = defineStore("property", () => {
     fetchRoom,
     updateProperty,
     fetchTenantList,
-    updateRoom
+    updateRoom,
+    fetchStats
   };
 });
